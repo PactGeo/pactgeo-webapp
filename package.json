@@ -2,7 +2,7 @@
   "name": "my-qwik-basic-starter",
   "description": "Demo app with sample routes",
   "engines": {
-    "node": "^18.17.0 || ^20.3.0 || >=21.0.0"
+    "node": "18.17.0 || 20.3.0 || >=21.0.0"
   },
   "engines-annotation": "Mostly required by sharp which needs a Node-API v9 compatible runtime",
   "private": true,
@@ -27,18 +27,25 @@
     "qwik": "qwik"
   },
   "devDependencies": {
-    "@builder.io/qwik": "^1.8.0",
-    "@builder.io/qwik-city": "^1.8.0",
+    "@auth/qwik": "0.2.3",
+    "@builder.io/qwik": "1.8.0",
+    "@builder.io/qwik-city": "1.8.0",
+    "@qwik-ui/headless": "0.5.2",
+    "@qwik-ui/utils": "0.3.1",
     "@types/eslint": "8.56.10",
     "@types/node": "20.14.11",
     "@typescript-eslint/eslint-plugin": "7.16.1",
     "@typescript-eslint/parser": "7.16.1",
+    "autoprefixer": "10.4.14",
     "eslint": "8.57.0",
-    "eslint-plugin-qwik": "^1.8.0",
+    "eslint-plugin-qwik": "1.8.0",
+    "postcss": "8.4.31",
     "prettier": "3.3.3",
-    "typescript": "5.4.5",
+    "prettier-plugin-tailwindcss": "0.6.6",
+    "tailwindcss": "3.4.10",
+    "typescript": "5.5.4",
     "undici": "*",
-    "vite": "5.3.5",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite": "5.4.2",
+    "vite-tsconfig-paths": "4.2.1"
   }
 }
