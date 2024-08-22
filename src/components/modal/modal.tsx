@@ -1,6 +1,6 @@
-import { component$, Slot, useStyles$ } from "@builder.io/qwik";
-import { Modal } from "@qwik-ui/headless";
+import { component$, Slot, useSignal, useStyles$ } from "@builder.io/qwik";
 import styles from "./modal.css?inline";
+import { Modal } from '~/components/ui';
 
 interface ModalProps {
     trigger: string;
@@ -8,17 +8,16 @@ interface ModalProps {
     description?: string;
     showFooter?: boolean;
     onClose?: () => void;
-    onSave?: () => void;
 }
 
 export default component$<ModalProps>((props) => {
     useStyles$(styles);
-
+    const show = useSignal(false);
     return (
-        <Modal.Root>
+        <Modal.Root bind:show={show}>
             <Modal.Trigger class="modal-trigger">{props.trigger}</Modal.Trigger>
             <Modal.Panel class="modal-panel">
-                <button class="modal-close-button" aria-label="Close" onClick$={props.onClose}>
+                <button class="modal-close-button" aria-label="Close" onClick$={() => show.value = !show.value}>
                     &times;
                 </button>
                 {props.title && <Modal.Title>{props.title}</Modal.Title>}
@@ -28,13 +27,8 @@ export default component$<ModalProps>((props) => {
                     </Modal.Description>
                 )}
                 <Slot />
-                {props.showFooter && (
-                    <footer>
-                        <Modal.Close class="modal-close" onClick$={props.onClose}>Cancel</Modal.Close>
-                        <Modal.Close class="modal-close" onClick$={props.onSave}>Save Changes</Modal.Close>
-                    </footer>
-                )}
             </Modal.Panel>
         </Modal.Root>
     );
 });
+

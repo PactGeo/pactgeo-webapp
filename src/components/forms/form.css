@@ -1,0 +1,81 @@
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: calc(100% - 10px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #4CAF50;
+}
+
+.char-counter {
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    font-size: 12px;
+    color: #999;
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.chip {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.chip input {
+    margin-right: 5px;
+}
+
+.input-group-inline {
+    display: flex;
+    gap: 19px;
+    margin-bottom: 20px;
+}
+
+.input-group-inline input {
+    width: 48%; /* Ajustar el tamaño */
+    padding: 8px;
+    font-size: 14px; /* Reducir un poco el tamaño de la fuente */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.input-group-inline input::placeholder {
+    font-size: 12px;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    margin-bottom: 15px;
+}
