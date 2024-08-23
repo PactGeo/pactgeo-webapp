@@ -1,81 +1,151 @@
-.input-group {
-    position: relative;
-    margin-bottom: 20px;
+/* combobox */
+:root {
+    --combobox-width: 300px;
 }
 
-.input-group input {
-    width: calc(100% - 10px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s ease;
+.combobox-root {
+    min-width: var(--combobox-width);
 }
 
-.input-group input:focus {
-    border-color: #4CAF50;
+.combobox-input {
+    all: unset;
+    box-sizing: border-box;
+    background: transparent;
+    padding-inline: 0.5rem;
+    padding-right: 44px;
 }
 
-.char-counter {
+.combobox-trigger {
+    border-radius: calc(var(--border-radius) / 2);
+    width: 44px;
+    background: hsla(var(--primary) / 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 2px dotted hsla(var(--foreground));
     position: absolute;
-    bottom: -20px;
     right: 0;
-    font-size: 12px;
-    color: #999;
 }
 
-.switch-container {
+.combobox-trigger[data-open] svg {
+    transform: rotate(180deg);
+}
+
+.combobox-trigger,
+.combobox-input {
+    height: 44px;
+}
+
+.combobox-control {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    outline: 2px dotted hsla(var(--foreground));
+    position: relative;
+}
+
+.combobox-control:focus-within {
+    background: hsl(var(--primary) / 0.08);
+}
+
+.combobox-control[data-invalid] {
+    outline: 2px dotted #d2122e;
+}
+
+.combobox-popover {
+    width: 100%;
+    max-width: calc(var(--combobox-width) + 2.5rem);
+    background-color: hsl(var(--background));
+    padding: 0.5rem;
+    border: 2px dotted hsla(var(--foreground) / 0.6);
+    border-radius: calc(var(--border-radius) / 2);
+    color: hsl(var(--foreground));
+}
+
+.combobox-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    stroke: hsl(var(--foreground));
+}
+
+.combobox-trigger[data-open] .combobox-icon {
+    transform: rotate(180deg);
+}
+
+.combobox-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
 }
 
-.chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
+.combobox-label {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: hsla(var(--foreground) / 0.8);
+    padding-top: 0.5rem;
 }
 
-.chip {
-    display: flex;
+.combobox-max-height {
+    max-height: 12rem;
+    overflow-y: auto;
+}
+
+.combobox-group-label {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: hsla(var(--foreground) / 0.8);
+    padding-top: 0.5rem;
+}
+
+[data-highlighted] {
+    outline: 2px dotted hsla(var(--primary) / 1);
+    background: hsla(var(--primary) / 0.08);
+    border-radius: calc(var(--border-radius) / 2);
+}
+
+[data-disabled] {
+    opacity: 0.6;
+    background: hsl(var(--foreground) / 0.05);
+}
+
+.combobox-pill {
+    display: inline-flex;
     align-items: center;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    background-color: #f0f0f0;
-    cursor: pointer;
+    gap: 0.25rem;
+    margin-inline: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background-color: hsl(var(--muted));
+    margin-block: 0.25rem;
 }
 
-.chip input {
-    margin-right: 5px;
-}
-
-.input-group-inline {
-    display: flex;
-    gap: 19px;
-    margin-bottom: 20px;
-}
-
-.input-group-inline input {
-    width: 48%; /* Ajustar el tamaño */
-    padding: 8px;
-    font-size: 14px; /* Reducir un poco el tamaño de la fuente */
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-.input-group-inline input::placeholder {
-    font-size: 12px;
-}
-
-input[type="file"] {
+.combobox-pill-container {
+    padding-right: 44px;
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f0f0f0;
-    margin-bottom: 15px;
+}
+
+.combobox-multiple {
+    display: flex;
+    flex-direction: column;
+}
+
+.combobox-multiple input {
+    width: 100%;
+}
+
+.combobox-multiple .combobox-trigger {
+    min-height: 48px;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.combobox-clear {
+    background: hsl(var(--secondary) / 0.08);
+}
+
+.combobox-control:focus-within .combobox-pill {
+    background-color: hsl(var(--foreground) / 0.08);
+}
+
+.combobox-control:focus-within .combobox-clear {
+    background: hsl(var(--secondary) / 0.25);
 }

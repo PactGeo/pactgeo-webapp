@@ -5,6 +5,7 @@ import { Avatar } from "~/components/ui/avatar/avatar";
 import { Popover } from "@qwik-ui/headless";
 import styles from "./header.css?inline";
 import { Button } from "~/components/ui";
+import { useNavigate } from "@builder.io/qwik-city";
 
 interface LoggedInMenuProps {
   name?: string,
@@ -15,9 +16,10 @@ interface LoggedInMenuProps {
 export const LoggedInMenu = component$<LoggedInMenuProps>((props) => {
   const signOut = useSignOut()
   const navItems = [
-    { label: 'Comunidades', href: '/communities' },
+    { label: 'Communities', href: '/communities' },
     { label: 'Debates', href: '/debates' },
   ];
+  const nav = useNavigate();
   return (
     <nav class="flex flex-row flex-nowrap">
       {navItems.map((navItem) => (
@@ -26,6 +28,7 @@ export const LoggedInMenu = component$<LoggedInMenuProps>((props) => {
           class="mr-2 -ml-0.5 text-white bg-transparent hover:bg-indigo-500 active:bg-primary-900 active:text-white"
           key={navItem.label}
           look="link"
+          onClick$={() => nav(navItem.href)}
         >
           {navItem.label}
         </Button>
@@ -56,6 +59,7 @@ export const LoggedOutMenu = component$(() => {
     { label: 'Login', href: '/login' },
     { label: 'Sign Up', href: '/register' },
   ];
+  const nav = useNavigate();
   return (
     <nav class="flex flex-row flex-nowrap">
       {navItems.map((navItem) => (
@@ -64,6 +68,7 @@ export const LoggedOutMenu = component$(() => {
           class="text-white hover:bg-indigo-500 p-2 rounded"
           key={navItem.label}
           look="link"
+          onClick$={() => nav(navItem.href)}
         >
           {navItem.label}
         </Button>
@@ -75,7 +80,6 @@ export const LoggedOutMenu = component$(() => {
 export default component$(() => {
   useStylesScoped$(styles);
   const session = useSession();
-  console.log('session', session.value)
 
   return (
     <div class="w-full h-full bg-neutral-50">

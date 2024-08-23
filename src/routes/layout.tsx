@@ -8,6 +8,14 @@ import Footer from "../components/starter/footer/footer";
 import styles from "./styles.css?inline";
 // import Menu from "~/components/menu/menu";
 
+// export const onRequest: RequestHandler = (event) => {
+//   const session = event.sharedMap.get("session")
+//   console.log('session!!', session)
+//   if (!session || new Date(session.expires) < new Date()) {
+//     throw event.redirect(302, `/`)
+//   }
+// }
+
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
   // https://qwik.dev/docs/caching/

@@ -20,9 +20,9 @@ export default component$<ModalProps>((props) => {
                 <button class="modal-close-button" aria-label="Close" onClick$={() => show.value = !show.value}>
                     &times;
                 </button>
-                {props.title && <Modal.Title>{props.title}</Modal.Title>}
+                {props.title && <Modal.Title class="modal-title">{props.title}</Modal.Title>}
                 {props.description && (
-                    <Modal.Description>
+                    <Modal.Description class="modal-description">
                         {props.description}
                     </Modal.Description>
                 )}

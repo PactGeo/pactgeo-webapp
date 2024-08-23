@@ -5,6 +5,7 @@ import { Separator } from '~/components/ui';
 import CardDebate from "~/components/cards/CardDebate";
 import FormDebate from "~/components/forms/FormDebate";
 import Modal from '~/components/modal/modal';
+import { useSession } from "./plugin@auth";
 
 export const useGetDebates = routeLoader$(async () => {
   const response = await fetch('http://localhost:8000/debates', {
@@ -49,25 +50,35 @@ export const usePostDebate = routeAction$(async (props) => {
 export default component$(() => {
   const getDebates = useGetDebates();
   const postDebate = usePostDebate();
+  const session = useSession();
   const debates = getDebates.value;
-  console.log('debates', debates)
 
   return (
     <>
       <div class="container">
         <div class="flex justify-between items-end">
           <h1>Debates</h1>
-          <Modal
-            trigger="Nuevo debate"
-            title="Crear Debate"
-            description="Comparte el desafío más importante que enfrenta tu comunidad. Este es el lugar para iniciar conversaciones y encontrar soluciones juntos. Tu opinión cuenta y puede hacer la diferencia."
-          >
-            <FormDebate
-              action={postDebate}
-            />
-          </Modal>
+          {session.value?.user ? (
+            <Modal
+              trigger="New"
+              title="New Debate"
+              description="Share the most important challenge facing your community."
+            >
+              <FormDebate
+                action={postDebate}
+              />
+            </Modal>
+          ):(
+            <Modal
+              trigger="New"
+              title="Debes iniciar sesion"
+              description="Debes iniciar sesion para crear un nuevo debate"
+            >
+              <button>Iniciar sesion</button>
+            </Modal>
+          )}
         </div>
-        <Separator orientation="horizontal" class="separator-top" />
+        <Separator orientation="horizontal" class="separator-top my-2" />
         {debates.length === 0 && <p>No debates found</p>}
         <ul>
           {debates.map((debate) => (

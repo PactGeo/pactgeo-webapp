@@ -4,100 +4,6 @@ import { LuFacebook, LuTwitter, LuInstagram, LuYoutube } from "@qwikest/icons/lu
 import { QwikLogo } from '~/components/starter/icons/qwik';
 import { Button } from "~/components/ui";
 
-const categories = [
-  {
-    label: 'How to buy',
-    subcategories: [
-      {
-        subcategoryLabel: 'Conflictos internacionales',
-        link: '/payment-methods',
-      },
-      {
-        subcategoryLabel: 'Politicas Exteriores',
-        link: '/order',
-      },
-      {
-        subcategoryLabel: 'Relaciones de Poder',
-        link: '/purchase',
-      },
-      {
-        subcategoryLabel: 'Recursos Naturales y Economia Mundial',
-        link: '/track',
-      },
-      {
-        subcategoryLabel: 'Returns',
-        link: '/returns',
-      },
-    ],
-  },
-  {
-    label: 'Help',
-    subcategories: [
-      {
-        subcategoryLabel: 'Help centers',
-        link: '/help',
-      },
-      {
-        subcategoryLabel: 'Security & fraud',
-        link: '/security',
-      },
-      {
-        subcategoryLabel: 'Feedback',
-        link: '/feedback',
-      },
-      {
-        subcategoryLabel: 'Contact',
-        link: '/contact',
-      },
-    ],
-  },
-  {
-    label: 'Services',
-    subcategories: [
-      {
-        subcategoryLabel: 'Gift cards',
-        link: '/gift',
-      },
-      {
-        subcategoryLabel: 'Order pickup',
-        link: '/order',
-      },
-      {
-        subcategoryLabel: 'Purchase status',
-        link: '/purchase',
-      },
-      {
-        subcategoryLabel: 'Track orders',
-        link: '/track',
-      },
-    ],
-  },
-  {
-    label: 'About',
-    subcategories: [
-      {
-        subcategoryLabel: 'About us',
-        link: '/about',
-      },
-      {
-        subcategoryLabel: 'Order pickup',
-        link: '/order',
-      },
-      {
-        subcategoryLabel: 'Purchase status',
-        link: '/purchase',
-      },
-      {
-        subcategoryLabel: 'Track orders',
-        link: '/track',
-      },
-      {
-        subcategoryLabel: 'Returns',
-        link: '/returns',
-      },
-    ],
-  },
-];
 const socialMedia = [
   {
     label: 'Facebook',
@@ -136,29 +42,6 @@ export default component$(() => {
   const currentYear = dateObject.getFullYear()
   return (
     <footer class="pt-10 bg-neutral-100 mt-auto">
-      <div class="grid justify-center grid-cols-[1fr_1fr] md:grid-cols-[repeat(4,1fr)] px-4 md:px-6 pb-10 max-w-[1536px] mx-auto">
-        {categories.map(({ label, subcategories }) => (
-          <div class="grid grid-cols xs:pb-4" key={label}>
-            <div class="ml-4 text-lg font-medium leading-7 text-neutral-900 font-body">
-              {label}
-            </div>
-            {/* {subcategories?.map(({ subcategoryLabel, link }) => (
-              <SfListItem
-                class="py-2 !bg-transparent typography-text-sm font-body"
-                key={subcategoryLabel}
-              >
-                <SfLink
-                  class="no-underline text-neutral-600 hover:underline hover:!text-neutral-900 active:underline active:!text-neutral-900"
-                  variant="secondary"
-                  href={link}
-                >
-                  {subcategoryLabel}
-                </SfLink>
-              </SfListItem>
-            ))} */}
-          </div>
-        ))}
-      </div>
       <hr />
       <div class="bg-neutral-900 justify-end px-4 py-10 md:py-6 max-w-[1536px] mx-auto">
         <div class="bg-neutral-900 justify-end px-4 py-10 md:flex md:py-6 max-w-[1536px] mx-auto">
