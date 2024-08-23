@@ -3,8 +3,8 @@ import { useSession, useSignOut } from '~/routes/plugin@auth';
 import { QwikLogo } from "../icons/qwik";
 import { Avatar } from "~/components/ui/avatar/avatar";
 import { Popover } from "@qwik-ui/headless";
-import { SfButton } from 'qwik-storefront-ui';
 import styles from "./header.css?inline";
+import { Button } from "~/components/ui";
 
 interface LoggedInMenuProps {
   name?: string,
@@ -21,17 +21,14 @@ export const LoggedInMenu = component$<LoggedInMenuProps>((props) => {
   return (
     <nav class="flex flex-row flex-nowrap">
       {navItems.map((navItem) => (
-        <SfButton
+        <Button
           aria-label={navItem.label}
-          as="a"
           class="mr-2 -ml-0.5 text-white bg-transparent hover:bg-indigo-500 active:bg-primary-900 active:text-white"
-          href={navItem.href}
           key={navItem.label}
-          square
-          variant="tertiary"
+          look="link"
         >
           {navItem.label}
-        </SfButton>
+        </Button>
       ))}
       <Popover.Root>
         <Popover.Trigger>
@@ -62,17 +59,14 @@ export const LoggedOutMenu = component$(() => {
   return (
     <nav class="flex flex-row flex-nowrap">
       {navItems.map((navItem) => (
-        <SfButton
+        <Button
           aria-label={navItem.label}
-          as="a"
           class="text-white hover:bg-indigo-500 p-2 rounded"
-          href={navItem.href}
           key={navItem.label}
-          square
-          variant="tertiary"
+          look="link"
         >
           {navItem.label}
-        </SfButton>
+        </Button>
       ))}
     </nav>
   );
@@ -81,6 +75,7 @@ export const LoggedOutMenu = component$(() => {
 export default component$(() => {
   useStylesScoped$(styles);
   const session = useSession();
+  console.log('session', session.value)
 
   return (
     <div class="w-full h-full bg-neutral-50">

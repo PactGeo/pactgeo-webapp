@@ -1,16 +1,8 @@
 import { component$ } from '@builder.io/qwik';
 import { useServerTimeLoader } from "~/routes/layout";
-import {
-  SfButton,
-  SfIconFacebook,
-  SfIconInstagram,
-  SfIconPinterest,
-  SfIconTwitter,
-  SfIconYoutube,
-  SfLink,
-  SfListItem,
-} from 'qwik-storefront-ui';
+import { LuFacebook, LuTwitter, LuInstagram, LuYoutube } from "@qwikest/icons/lucide";
 import { QwikLogo } from '~/components/starter/icons/qwik';
+import { Button } from "~/components/ui";
 
 const categories = [
   {
@@ -110,27 +102,22 @@ const socialMedia = [
   {
     label: 'Facebook',
     link: '/facebook',
-    icon: () => <SfIconFacebook />,
+    icon: () => <LuFacebook />,
   },
   {
     label: 'Twitter',
     link: '/twitter',
-    icon: () => <SfIconTwitter />,
+    icon: () => <LuTwitter />,
   },
   {
     label: 'Instagram',
     link: '/instagram',
-    icon: () => <SfIconInstagram />,
-  },
-  {
-    label: 'Pinterest',
-    link: '/pinterest',
-    icon: () => <SfIconPinterest />,
+    icon: () => <LuInstagram />,
   },
   {
     label: 'Youtube',
     link: '/youtube',
-    icon: () => <SfIconYoutube />,
+    icon: () => <LuYoutube />,
   },
 ];
 const bottomLinks = [
@@ -155,7 +142,7 @@ export default component$(() => {
             <div class="ml-4 text-lg font-medium leading-7 text-neutral-900 font-body">
               {label}
             </div>
-            {subcategories?.map(({ subcategoryLabel, link }) => (
+            {/* {subcategories?.map(({ subcategoryLabel, link }) => (
               <SfListItem
                 class="py-2 !bg-transparent typography-text-sm font-body"
                 key={subcategoryLabel}
@@ -168,42 +155,42 @@ export default component$(() => {
                   {subcategoryLabel}
                 </SfLink>
               </SfListItem>
-            ))}
+            ))} */}
           </div>
         ))}
       </div>
       <hr />
-      <div class="bg-neutral-900 justify-end px-4 py-10 md:flex md:py-6 max-w-[1536px] mx-auto">
-        <div class="flex justify-center py-2 gap-x-4 md:self-start">
-          {socialMedia.map(({ icon: Icon, label, link }) => (
-            <SfButton
-              key={label}
-              square
-              as="a"
-              variant="tertiary"
-              class="text-white active:text-white hover:text-white hover:!bg-neutral-500 active:bg-transparent"
-              href={link}
-              aria-label={`Go to ${label} page`}
-            >
-              <Icon />
-            </SfButton>
-          ))}
-        </div>
-        <div class="flex items-center justify-center gap-6 py-2 my-4 md:ml-auto md:my-0">
-          {bottomLinks.map(({ label, link }) => (
-            <SfLink
-              key={label}
-              variant="secondary"
-              class="text-white no-underline typography-text-sm active:text-white active:underline hover:text-white hover:underline"
-              href={link}
-            >
-              {label}
-            </SfLink>
-          ))}
+      <div class="bg-neutral-900 justify-end px-4 py-10 md:py-6 max-w-[1536px] mx-auto">
+        <div class="bg-neutral-900 justify-end px-4 py-10 md:flex md:py-6 max-w-[1536px] mx-auto">
+          <div class="flex justify-center py-2 gap-x-4 md:self-start">
+            {socialMedia.map(({ icon: Icon, label, link }) => (
+              <Button
+                aria-label={`Go to ${label} page`}
+                key={label}
+                class="text-white active:text-white hover:text-white hover:!bg-neutral-500 active:bg-transparent"
+                look="link"
+              >
+                <Icon />
+              </Button>
+            ))}
+          </div>
+          <div class="flex items-center justify-center gap-6 py-2 my-4 md:ml-auto md:my-0">
+            {bottomLinks.map(({ label, link }) => (
+              <Button
+                key={label}
+                class="text-white no-underline typography-text-sm active:text-white active:underline hover:text-white hover:underline"
+                look="link"
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
         </div>
         <p class="flex items-center justify-center py-2 leading-5 text-center typography-text-sm text-white/50 font-body md:ml-6">
-          <span>Made with <QwikLogo height={25} width={70} /> by SC</span>
-          <span>@{currentYear} Geocovenant</span>
+          <span class="flex items-center">
+            Made with &nbsp; <QwikLogo height={25} width={70} /> &nbsp; by &nbsp; <a href="https://sebastiancardoso.com/" target="_blank" >SC</a>
+          </span>
+          <span class="ml-2">©{currentYear} Geocovenant</span>
         </p>
       </div>
     </footer>

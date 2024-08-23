@@ -1,5 +1,4 @@
-import type { PropsOf} from "@builder.io/qwik";
-import { Slot, component$ } from "@builder.io/qwik";
+import { PropsOf, Slot, component$ } from "@builder.io/qwik";
 import { cn } from "@qwik-ui/utils";
 
 const Root = component$<PropsOf<"div">>(({ ...props }) => {

@@ -1,9 +1,7 @@
 import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
 import { Form } from '@builder.io/qwik-city';
-import { Select } from "@qwik-ui/headless";
 import styles from "./form.css?inline";
-import { Input, Label, Textarea } from '~/components/ui';
-import { SfSwitch } from 'qwik-storefront-ui'; // Switch para el estado público
+import { Input, Label, RadioGroup, Select, Textarea } from '~/components/ui';
 
 interface FormDebateProps {
     action: any;
@@ -11,14 +9,22 @@ interface FormDebateProps {
 
 export default component$<FormDebateProps>((props) => {
     useStyles$(styles);
-    const level_options = ['Debate Mundial', 'Debate Continental', 'Debate Nacional', 'Debate Provincial', 'Debate Local'];
+    const level_options = ['Mundial', 'Continental', 'Nacional', 'Provincial', 'Local'];
     const community_options = ['Community 1', 'Community 2', 'Community 3'];
     const title = useSignal('');
     const description = useSignal('');
-    const isPublic = useSignal(false);
 
     return (
         <Form action={props.action}>
+            <div class="switch-container">
+                <Label for="public">Public</Label>
+                <input
+                    type="checkbox"
+                    role="switch"
+                    name="public"
+                />
+            </div>
+
             <div class="input-group">
                 <Label for="title">Title</Label>
                 <input type="text" id="title" name="title" maxLength={100} placeholder="Title" bind:value={title} />
@@ -33,23 +39,26 @@ export default component$<FormDebateProps>((props) => {
 
             <div class="input-group">
                 <Label for="file">Image/Video</Label>
-                <input type="file" id="file" accept="image/*,video/*" />
+                <input type="file" name="file" id="file" accept="image/*,video/*" />
             </div>
 
-            <div class="switch-container">
-                <Label for="public">Public</Label>
-                <SfSwitch checked={isPublic.value} onChange$={() => (isPublic.value = !isPublic.value)} />
-            </div>
 
-            <Label for="level">Nivel Geográfico</Label>
-            <div class="chips">
-                {level_options.map((level) => (
-                    <div class="chip" key={level}>
-                        <input type="radio" id={level} name="level" value={level} />
-                        <Label for={level}>{level}</Label>
-                    </div>
-                ))}
-            </div>
+            <Select.Root>
+                <Select.Label>Nivel Geográfico</Select.Label>
+                <Select.Trigger>
+                    <Select.DisplayValue placeholder="Select an option" />
+                </Select.Trigger>
+                <Select.Popover gutter={8}>
+                    {level_options.map((level) => (
+                    <Select.Item key={level}>
+                        <Select.ItemLabel>{level}</Select.ItemLabel>
+                        <Select.ItemIndicator>
+                        <LuCheck />
+                        </Select.ItemIndicator>
+                    </Select.Item>
+                    ))}
+                </Select.Popover>
+            </Select.Root>
 
             <Select.Root class="select">
                 <Select.Label>Selecciona la comunidad</Select.Label>

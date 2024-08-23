@@ -21,6 +21,7 @@ export const Textarea = component$<TextareaProps>(
         <textarea
           {...props}
           // workaround to support two way data-binding on the Input component (https://github.com/QwikDev/qwik/issues/3926)
+          name={name}
           value={valueSig ? valueSig.value : value}
           onInput$={
             valueSig ? $((__, el) => (valueSig.value = el.value)) : onInput$

@@ -1,10 +1,8 @@
 import plugin from "tailwindcss/plugin";
-import { tailwindConfig } from "@storefront-ui/tailwind-config";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}", "./node_modules/qwik-storefront-ui/**/*.{cjs,mjs}"],
-  presets: [tailwindConfig],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
