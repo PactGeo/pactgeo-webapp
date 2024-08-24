@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { routeLoader$, routeAction$ } from '@builder.io/qwik-city';
+import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
 import { Separator } from '~/components/ui';
 import CardDebate from "~/components/cards/CardDebate";
 import FormDebate from "~/components/forms/FormDebate";
@@ -33,19 +33,32 @@ export const useGetDebates = routeLoader$(async () => {
   }>;
 });
 
-export const usePostDebate = routeAction$(async (props) => {
-  console.log('DEBATE', props);
-  // const response = await fetch('http://localhost:8000/debates', {
-  //   method: 'POST',
-  //   headers: {
-  //     Accept: 'application/json',
-  //     'Content-Type': 'application/json',
-  //     Authorization: 'Basic c2ViYToxMjM0NTY='
-  //   },
-  //   body: JSON.stringify(props),
-  // });
-  // return (await response.json());
-});
+export const usePostDebate = routeAction$(
+  async (debate) => {
+    console.log('DEBATE', debate);
+    const response = await fetch('http://localhost:8000/debates', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Basic c2ViYToxMjM0NTY='
+      },
+      body: JSON.stringify(debate),
+    });
+    return (await response.json());
+  },
+  zod$({
+    title: z.string({
+      required_error: "Title is required",
+      invalid_type_error: "Title must be a string",
+    }).min(10, { message: "Must be 10 or more characters long" }).max(100, { message: "Must be 100 or fewer characters long" }),
+    description: z.string({
+      required_error: "Description is required",
+      invalid_type_error: "Description must be a string",
+    }).max(5000, { message: "Must be 5000 or fewer characters long" }),
+    level: z.string().optional(),
+  })
+);
 
 export default component$(() => {
   const getDebates = useGetDebates();
@@ -83,22 +96,7 @@ export default component$(() => {
         <ul>
           {debates.map((debate) => (
             <li key={`debate-${debate.id}`}>
-              <CardDebate
-                comments_count={debate.comments_count}
-                community_id={debate.community_id}
-                created_at={debate.created_at}
-                creator_id={debate.creator_id}
-                description={debate.description}
-                dislikes_count={debate.dislikes_count}
-                language={debate.language}
-                last_comment_at={debate.last_comment_at}
-                likes_count={debate.likes_count}
-                max_characters_per_comment={debate.max_characters_per_comment}
-                min_characters_per_comment={debate.min_characters_per_comment}
-                title={debate.title}
-                updated_at={debate.updated_at}
-                views_count={debate.views_count}
-              />
+              <CardDebate debate={debate}/>
             </li>
           ))}
         </ul>

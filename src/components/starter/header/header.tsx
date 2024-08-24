@@ -5,7 +5,7 @@ import { Avatar } from "~/components/ui/avatar/avatar";
 import { Popover } from "@qwik-ui/headless";
 import styles from "./header.css?inline";
 import { Button } from "~/components/ui";
-import { useNavigate } from "@builder.io/qwik-city";
+import { Link, useNavigate } from "@builder.io/qwik-city";
 
 interface LoggedInMenuProps {
   name?: string,
@@ -23,15 +23,18 @@ export const LoggedInMenu = component$<LoggedInMenuProps>((props) => {
   return (
     <nav class="flex flex-row flex-nowrap">
       {navItems.map((navItem) => (
-        <Button
-          aria-label={navItem.label}
-          class="mr-2 -ml-0.5 text-white bg-transparent hover:bg-indigo-500 active:bg-primary-900 active:text-white"
+        <Link
+          href={navItem.href}
           key={navItem.label}
-          look="link"
-          onClick$={() => nav(navItem.href)}
         >
-          {navItem.label}
-        </Button>
+          <Button
+            aria-label={navItem.label}
+            class="mr-2 -ml-0.5 text-white bg-transparent hover:bg-purple-700 active:bg-purple-800 active:text-white transition-colors duration-300 ease-in-out"
+            look="link"
+          >
+            {navItem.label}
+          </Button>
+        </Link>
       ))}
       <Popover.Root>
         <Popover.Trigger>
