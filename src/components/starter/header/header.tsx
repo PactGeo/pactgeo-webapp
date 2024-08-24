@@ -1,10 +1,9 @@
-import { component$, useStylesScoped$ } from "@builder.io/qwik";
+import { component$, useStyles$, useStylesScoped$ } from "@builder.io/qwik";
 import { useSession, useSignOut } from '~/routes/plugin@auth';
 import { QwikLogo } from "../icons/qwik";
 import { Avatar } from "~/components/ui/avatar/avatar";
-import { Popover } from "@qwik-ui/headless";
 import styles from "./header.css?inline";
-import { Button } from "~/components/ui";
+import { Button, Popover } from "~/components/ui";
 import { Link, useNavigate } from "@builder.io/qwik-city";
 
 interface LoggedInMenuProps {
@@ -14,6 +13,7 @@ interface LoggedInMenuProps {
 }
 
 export const LoggedInMenu = component$<LoggedInMenuProps>((props) => {
+  useStyles$(styles);
   const signOut = useSignOut()
   const navItems = [
     { label: 'Communities', href: '/communities' },
@@ -36,8 +36,8 @@ export const LoggedInMenu = component$<LoggedInMenuProps>((props) => {
           </Button>
         </Link>
       ))}
-      <Popover.Root>
-        <Popover.Trigger>
+      <Popover.Root flip={false}>
+        <Popover.Trigger class="popover-trigger">
           {props.image
             ? (
               <Avatar.Root>
@@ -48,7 +48,7 @@ export const LoggedInMenu = component$<LoggedInMenuProps>((props) => {
             : null
           }
         </Popover.Trigger>
-        <Popover.Panel>
+        <Popover.Panel class="popover-panel popover-animation">
           <div>Mi perfil</div>
           <button onClick$={() => signOut.submit({ redirectTo: "/" })}>Cerrar sesion</button>
         </Popover.Panel>
