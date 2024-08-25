@@ -8,6 +8,7 @@ export * from './button/button';
 export * from './checkbox/checkbox';
 export * from './combobox/combobox';
 export * from './input/input';
+export * from './input/file';
 export * from './label/label';
 export * from './modal/modal';
 export * from './popover/popover';

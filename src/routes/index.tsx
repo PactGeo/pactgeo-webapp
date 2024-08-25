@@ -1,11 +1,11 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
 import { Separator } from '~/components/ui';
 import CardDebate from "~/components/cards/CardDebate";
-import FormDebate from "~/components/forms/FormDebate";
+import FormDebateGlobal from "~/components/forms/FormDebateGlobal";
 import Modal from '~/components/modal/modal';
-import { useSession } from "./plugin@auth";
+import { useSession } from "~/routes/plugin@auth";
 
 export const useGetDebates = routeLoader$(async () => {
   const response = await fetch('http://localhost:8000/debates', {
@@ -62,38 +62,37 @@ export const usePostDebate = routeAction$(
 
 export default component$(() => {
   const getDebates = useGetDebates();
-  const postDebate = usePostDebate();
   const session = useSession();
   const debates = getDebates.value;
+
+  const selectedLevel = useSignal<string>('Global');
 
   return (
     <>
       <div class="container">
         <div class="flex justify-between items-end">
-          <h1>Debates</h1>
+          <h1>Global Debates</h1>
           {session.value?.user ? (
             <Modal
               trigger="New"
-              title="New Debate"
+              title="New Global Debate"
               description="Share the most important challenge facing your community."
             >
-              <FormDebate
-                action={postDebate}
-              />
+              <FormDebateGlobal selectedLevel={selectedLevel.value} />
             </Modal>
           ):(
             <Modal
               trigger="New"
-              title="Debes iniciar sesion"
-              description="Debes iniciar sesion para crear un nuevo debate"
+              title="You must log in"
+              description="You must log in to create a new debate"
             >
-              <button>Iniciar sesion</button>
+              <button>Log in</button>
             </Modal>
           )}
         </div>
         <Separator orientation="horizontal" class="separator-top my-2" />
         {debates.length === 0 && <p>No debates found</p>}
-        <ul>
+        <ul class="flex gap-8">
           {debates.map((debate) => (
             <li key={`debate-${debate.id}`}>
               <CardDebate debate={debate}/>

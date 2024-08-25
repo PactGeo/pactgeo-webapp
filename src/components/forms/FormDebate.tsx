@@ -1,25 +1,29 @@
-import { component$, useComputed$, useSignal, useStyles$, useTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useStyles$, useTask$ } from "@builder.io/qwik";
 import { Form } from '@builder.io/qwik-city';
 import countries from "~/data/countries";
-import { Button, Combobox, Input, Label, RadioGroup, Select, Separator, Textarea } from '~/components/ui';
-import { LuLockKeyhole, LuUnlockKeyhole, LuCheck, LuChevronDown, LuCamera, LuX } from "@qwikest/icons/lucide";
+import { Button, Combobox, FileInput, Input, Label, RadioGroup, Select, Separator, Textarea } from '~/components/ui';
+import { LuLockKeyhole, LuUnlockKeyhole, LuCheck, LuChevronDown, LuX, LuLoader2 } from "@qwikest/icons/lucide";
+import { usePostDebate } from "~/routes/debates";
 import styles from "./form.css?inline";
 
-interface FormDebateProps {
-    action: any;
+
+interface Props {
+    selectedLevel: string;
 }
 
-export default component$<FormDebateProps>((props) => {
+export default component$<Props>(({ selectedLevel }) => {
     useStyles$(styles);
-    const level_options = ['Mundial', 'International', 'Nacional', 'Provincial', 'Local'];
-    
+    const level_options = ['Global', 'International', 'Nacional', 'Provincial', 'Local'];
+
+    const isLoading = useSignal(false);
+
     const title = useSignal('');
     const description = useSignal('');
-    const file = useSignal('');
+    const file = useSignal<any>('');
+    const previewUrl = useSignal<any>(null);
     
-    const selectedLevel = useSignal<string>('Mundial');
     const selectedCommunity = useSignal<string>('');
-    
+
     const selected = useSignal<string[]>([]);
     const displayValues = useSignal<string[]>([]);
     const inputRef = useSignal<HTMLInputElement>();
@@ -28,66 +32,70 @@ export default component$<FormDebateProps>((props) => {
     const community_title = useSignal<string>('Worldwide');
 
     useTask$(({ track }) => {
-        track(() => selectedLevel.value);
-        const value = selectedLevel.value;
-        if(value === "Mundial") {
+        track(() => selectedLevel);
+        const value = selectedLevel;
+        if (value === "Global") {
             community_options.value = [];
             community_title.value = "Worldwide";
         }
-        if(value === "International") {
+        if (value === "International") {
             community_options.value = countries.map((country) => `${country.flag} ${country.name}`);
             community_title.value = "Countries";
         }
-        if(value === "Nacional") {
+        if (value === "Nacional") {
             community_options.value = countries.map((country) => `${country.flag} ${country.name}`);
             community_title.value = "Countries";
         }
     });
-    
+
+    const action = usePostDebate();
+
     return (
-        <Form action={props.action}>
+        <Form
+            action={action}
+            onSubmitCompleted$={() => {
+                isLoading.value = false
+            }}
+        >
             <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
                 <Label for="title">Title</Label>
-                {/* <Input type="text" name="title" id="title" placeholder="Title" maxLength={100} bind:value={title} error={props.action.value?.fieldErrors?.title} /> */}
-                <Input 
-                    type="text" 
-                    name="title" 
-                    id="title" 
-                    placeholder="Title" 
-                    maxLength={100} 
-                    bind:value={title} 
-                    error={props.action.value?.fieldErrors?.title} 
+                <Input
+                    autofocus
+                    bind:value={title}
+                    error={action.value?.fieldErrors?.title}
+                    id="title"
+                    maxLength={100}
+                    name="title"
+                    placeholder="Describe a key challenge for the community"
+                    type="text"
+                    value={action.formData?.get('title')}
                 />
             </div>
 
             <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
                 <Label for="description">Description</Label>
                 <Textarea
+                    class="overflow-hidden h-auto"
                     name="description"
-                    placeholder="Description"
+                    placeholder="Provide details about the problem or proposal"
                     maxLength={5000}
                     bind:value={description}
-                    error={props.action.value?.fieldErrors?.description}
+                    error={action.value?.fieldErrors?.description}
                 />
             </div>
 
             <div class="grid w-full max-w-sm items-center gap-1.5">
-                <Label for="file">Imagen/Video</Label>
-                <div class="flex items-center justify-center w-full">
-                    <label for="file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 border-gray-300 hover:bg-gray-100">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <LuCamera />
-                        <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Arrastra y suelta el archivo o haz clic</span></p>
-                    </div>
-                    <Input name="file" id="file" type="file" class="hidden" accept="image/*,video/*" bind:value={file} />
-                    </label>
-                </div>
+                <FileInput
+                    name="file"
+                    id="file"
+                    // @ts-ignore
+                    bind:value={file}
+                    label="Imagen/Video"
+                />
             </div>
 
             <div class="grid w-full max-w-sm items-center gap-1.5 my-2">
-                <Select.Root
-                    bind:value={selectedLevel}
-                >
+                <Select.Root value={selectedLevel}>
                     <Select.Label>Geographic Level</Select.Label>
                     <Select.Trigger>
                         <Select.DisplayValue placeholder="Select an option" />
@@ -103,10 +111,10 @@ export default component$<FormDebateProps>((props) => {
                         ))}
                     </Select.Popover>
                 </Select.Root>
-                <input type="hidden" name="level" value={selectedLevel.value} />
+                <input type="hidden" name="level" value={selectedLevel} />
             </div>
 
-            {selectedLevel.value === "International" && (
+            {selectedLevel === "International" && (
                 <div class="grid w-full max-w-sm items-center gap-1.5 my-2">
                     <RadioGroup.Root>
                         <div class="flex items-center space-x-2 mb-2">
@@ -121,7 +129,7 @@ export default component$<FormDebateProps>((props) => {
                 </div>
             )}
 
-            {selectedLevel.value !== "Mundial" && selectedLevel.value !== "International" && (
+            {selectedLevel !== "Global" && selectedLevel !== "International" && (
                 <div class="grid w-full max-w-sm items-center gap-1.5 my-2">
                     <Combobox.Root class="combobox-root">
                         <Combobox.Label class="combobox-label">{community_title.value}</Combobox.Label>
@@ -145,7 +153,7 @@ export default component$<FormDebateProps>((props) => {
                 </div>
             )}
 
-            {selectedLevel.value !== "Mundial" && (
+            {selectedLevel !== "Global" && (
                 <div class="grid w-full max-w-sm items-center gap-1.5 my-2">
                     <Combobox.Root
                         bind:displayValue={displayValues}
@@ -163,10 +171,10 @@ export default component$<FormDebateProps>((props) => {
                                         {item}
                                         <span
                                             onPointerDown$={() => {
-                                            selected.value = selected.value?.filter(
-                                                (selectedItem) => selectedItem !== item,
-                                            );
-                                            inputRef.value?.focus();
+                                                selected.value = selected.value?.filter(
+                                                    (selectedItem) => selectedItem !== item,
+                                                );
+                                                inputRef.value?.focus();
                                             }}
                                         >
                                             <LuX aria-hidden="true" />
@@ -175,13 +183,13 @@ export default component$<FormDebateProps>((props) => {
                                 ))}
                                 {displayValues.value.length > 4 && (
                                     <button
-                                    class="combobox-clear combobox-pill"
-                                    onClick$={() => {
-                                        selected.value = [];
-                                        inputRef.value?.focus();
-                                    }}
+                                        class="combobox-clear combobox-pill"
+                                        onClick$={() => {
+                                            selected.value = [];
+                                            inputRef.value?.focus();
+                                        }}
                                     >
-                                    clear all
+                                        clear all
                                     </button>
                                 )}
                             </div>
@@ -193,10 +201,10 @@ export default component$<FormDebateProps>((props) => {
                         <Combobox.Popover class="combobox-popover" gutter={8}>
                             {community_options.value.map((community) => (
                                 <Combobox.Item key={community} class="combobox-item">
-                                <Combobox.ItemLabel>{community}</Combobox.ItemLabel>
-                                <Combobox.ItemIndicator>
-                                    <LuCheck />
-                                </Combobox.ItemIndicator>
+                                    <Combobox.ItemLabel>{community}</Combobox.ItemLabel>
+                                    <Combobox.ItemIndicator>
+                                        <LuCheck />
+                                    </Combobox.ItemIndicator>
                                 </Combobox.Item>
                             ))}
                         </Combobox.Popover>
@@ -204,7 +212,7 @@ export default component$<FormDebateProps>((props) => {
                 </div>
             )}
 
-            {selectedLevel.value !== "Mundial" && (
+            {selectedLevel !== "Global" && (
                 <div class="grid w-full max-w-sm items-center gap-1.5 my-2">
                     <Separator orientation="horizontal" class="separator-top my-2" />
                     <RadioGroup.Root>
@@ -229,9 +237,10 @@ export default component$<FormDebateProps>((props) => {
             )}
 
             <input type="hidden" name="creator_id" value="1" />
-            <Button type="submit" class="modal-save w-full">
-                {/* <LuLoader2 class="mr-2 h-5 w-5 animate-spin" /> */}
-                Create Debate
+            <input type="hidden" name="community_id" value="1" />
+            <Button type="submit" class="modal-save w-full" onClick$={() => isLoading.value = true}>
+                {isLoading.value && <LuLoader2 class="mr-2 h-5 w-5 animate-spin" />}
+                {isLoading.value ? <span>Creating Debate</span> : <span>Create Debate</span>}
             </Button>
         </Form>
     );

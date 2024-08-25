@@ -1,71 +1,54 @@
-import { component$, useStyles$ } from "@builder.io/qwik";
-import { LuEye, LuThumbsUp, LuThumbsDown, LuMessageSquare, LuUser, LuUsers, LuCalendar, LuGlobe, LuTag, LuLeaf, LuBriefcase } from '@qwikest/icons/lucide';
+import { component$, useStylesScoped$ } from "@builder.io/qwik";
+import { LuCalendar, LuMessageSquare, LuUser, LuTag } from '@qwikest/icons/lucide';
 import styles from "./card-debate.css?inline";
 
 interface CardDebateProps {
-    debate: {
-        title: string;
-        description: string;
-        views_count: number;
-        likes_count: number;
-        dislikes_count: number;
-        comments_count: number;
-        creator_id: number;
-        community_id: number;
-        created_at: string;
-        updated_at: string;
-        last_comment_at: string;
-        language: string;
-        min_characters_per_comment: number;
-        max_characters_per_comment: number;
-        image_url?: string;
-    };
+    title: string;
+    description: string;
+    creator_name: string;
+    created_at: string;
+    comments_count: number;
+    last_comment_at: string;
+    tags: string[];
 }
 
-export default component$<CardDebateProps>(({ debate }) => {
-    useStyles$(styles);
+export default component$<CardDebateProps>(({ title, description, creator_name, created_at, comments_count, last_comment_at, tags }) => {
+    useStylesScoped$(styles);
 
     return (
-        <div class="card-debate">
-            {debate.image_url && (
-                <div class="image-container">
-                    <img src={debate.image_url} alt="Debate Image" class="debate-image" />
+        <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow bg-white">
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">{title}</h2>
+                <p class="text-gray-600 mt-2 text-sm">{description}</p>
+            </div>
+            <div class="flex justify-between items-center text-gray-500 text-sm">
+                <div>
+                    <span class="flex items-center">
+                        <LuUser class="mr-1" />
+                        {creator_name}
+                    </span>
+                    <span class="flex items-center mt-1">
+                        <LuCalendar class="mr-1" />
+                        {new Date(created_at).toLocaleDateString()}
+                    </span>
                 </div>
-            )}
-            <div class="content">
-                <div class="header">
-                    <h1 class="title">{debate.title}</h1>
-                    <p class="description">{debate.description}</p>
-                    <div class="metrics">
-                        <span><LuEye class="icon" /> {debate.views_count}K views</span>
-                        <span><LuThumbsUp class="icon" /> {debate.likes_count} likes</span>
-                        <span><LuThumbsDown class="icon" /> {debate.dislikes_count} dislikes</span>
-                        <span><LuMessageSquare class="icon" /> {debate.comments_count} comments</span>
-                    </div>
+                <div class="text-right">
+                    <span class="flex items-center">
+                        <LuMessageSquare class="mr-1" />
+                        {comments_count} comments
+                    </span>
+                    <span class="flex items-center mt-1">
+                        <LuCalendar class="mr-1" />
+                        Last comment: {new Date(last_comment_at).toLocaleDateString()}
+                    </span>
                 </div>
-                <div class="details-and-view">
-                    <div class="details">
-                        <h2>Details</h2>
-                        <ul>
-                            <li><LuUser class="icon" /> Created by {debate.creator_id}</li>
-                            <li><LuUsers class="icon" /> Community: {debate.community_id}</li>
-                            <li><LuCalendar class="icon" /> Created on {debate.created_at}</li>
-                            <li><LuCalendar class="icon" /> Last comment on {debate.last_comment_at}</li>
-                            <li><LuGlobe class="icon" /> Language: {debate.language}</li>
-                            <li><LuTag class="icon" /> Tags: environment, plastic, sustainability</li>
-                            <li>Min Character Limit for Comments: {debate.min_characters_per_comment} characters</li>
-                            <li>Max Character Limit for Comments: {debate.max_characters_per_comment} characters</li>
-                        </ul>
-                    </div>
-                    <div class="points-of-view">
-                        <h2>Points of View</h2>
-                        <ul>
-                            <li><LuLeaf class="icon" /> Ban single-use plastics to protect the environment</li>
-                            <li><LuBriefcase class="icon" /> Maintain current policies to support businesses</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="join-button">Unirse al Debate</div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+                {tags?.map((tag) => (
+                    <span key={tag} class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded">
+                        <LuTag class="inline-block mr-1" /> {tag}
+                    </span>
+                ))}
             </div>
         </div>
     );

@@ -52,10 +52,6 @@
     color: #666;
 }
 
-.metrics .icon {
-    margin-right: 5px;
-}
-
 .details-and-view {
     display: flex;
     justify-content: space-between;

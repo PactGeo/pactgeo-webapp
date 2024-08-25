@@ -15,12 +15,13 @@ export const Input = component$<InputProps>(
           <input
             {...props}
             aria-errormessage={`${inputId}-error`}
-            aria-invaid={!!error}
+            aria-invalid={!!error}
             // workaround to support two way data-binding on the Input component (https://github.com/QwikDev/qwik/issues/3926)
             value={valueSig ? valueSig.value : value}
             onInput$={valueSig ? $((__, el) => (valueSig.value = el.value)) : onInput$}
             class={cn(
-              'flex h-12 w-full rounded-base border border-input bg-background px-3 py-1 text-sm text-foreground shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+              'flex h-12 w-full rounded-base border px-3 py-1 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50',
+              error ? 'border-red-500 focus-visible:ring-red-500' : 'border-input focus-visible:ring-ring',
               props.class,
             )}
             id={inputId}
@@ -33,7 +34,7 @@ export const Input = component$<InputProps>(
           )}
         </div>
         {error && (
-          <div id={`${inputId}-error`} class="text-destructive mt-1 text-sm">
+          <div id={`${inputId}-error`} class="text-red-500 mt-1 text-sm">
             {error}
           </div>
         )}
