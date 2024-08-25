@@ -2,7 +2,7 @@ import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
 import { Form } from '@builder.io/qwik-city';
 import { Button, Combobox, FileInput, Input, Label, Textarea } from '~/components/ui';
 import { LuCheck, LuChevronDown, LuLoader2, LuX } from "@qwikest/icons/lucide";
-import { usePostDebate } from "~/routes/debates";
+import { useGetTags, usePostDebate } from "~/routes/debates";
 import styles from "./form.css?inline";
 
 export default component$(() => {
@@ -20,21 +20,7 @@ export default component$(() => {
 
     const inputRef = useSignal<HTMLInputElement>();
 
-    const tags = [
-        "Política",
-        "Economía",
-        "Salud",
-        "Tecnología",
-        "Medio Ambiente",
-        "Cultura",
-        "Derechos y Justicia",
-        "Educación",
-        "Trabajo",
-        "Seguridad",
-        "Sociedad",
-        "Innovación",
-        "Derecho y Legislación"
-    ];
+    const tags = useGetTags()
     
     return (
         <Form
@@ -80,6 +66,10 @@ export default component$(() => {
                 />
             </div>
 
+            {selected.value.map((item, index) => (
+                <input type="hidden" name={`tags.${index}`} value={item}></input>
+            ))}
+
             <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
                 <Combobox.Root
                     class="combobox-root"
@@ -87,8 +77,9 @@ export default component$(() => {
                     removeOnBackspace
                     bind:displayValue={displayValues}
                     bind:value={selected}
+                    
                 >
-                    <Combobox.Label class="combobox-label">Personal Trainers</Combobox.Label>
+                    <Combobox.Label class="combobox-label">Tags</Combobox.Label>
                     <Combobox.Control class="combobox-control combobox-multiple">
                         <div class="combobox-pill-container">
                             {displayValues.value.map((item) => (
@@ -124,9 +115,9 @@ export default component$(() => {
                         </Combobox.Trigger>
                     </Combobox.Control>
                     <Combobox.Popover class="combobox-popover" gutter={8}>
-                        {tags.map((tag) => (
-                            <Combobox.Item key={tag} class="combobox-item">
-                                <Combobox.ItemLabel>{tag}</Combobox.ItemLabel>
+                        {tags.value.map((tag) => (
+                            <Combobox.Item key={tag.id} class="combobox-item">
+                                <Combobox.ItemLabel>{tag.name}</Combobox.ItemLabel>
                                 <Combobox.ItemIndicator>
                                     <LuCheck />
                                 </Combobox.ItemIndicator>

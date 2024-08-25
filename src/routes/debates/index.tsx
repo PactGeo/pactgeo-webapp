@@ -5,7 +5,7 @@ import { Separator } from '~/components/ui';
 import ListDebates from "~/components/list/ListDebates";
 
 export const useGetGlobalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates', {
+    const response = await fetch('http://localhost:8000/debates/global', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -31,7 +31,7 @@ export const useGetGlobalDebates = routeLoader$(async () => {
 });
 
 export const useGetInternationalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates', {
+    const response = await fetch('http://localhost:8000/debates/international', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -57,7 +57,7 @@ export const useGetInternationalDebates = routeLoader$(async () => {
 });
 
 export const useGetNationalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates', {
+    const response = await fetch('http://localhost:8000/debates/national', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -83,7 +83,7 @@ export const useGetNationalDebates = routeLoader$(async () => {
 });
 
 export const useGetLocalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates', {
+    const response = await fetch('http://localhost:8000/debates/locales', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -105,6 +105,19 @@ export const useGetLocalDebates = routeLoader$(async () => {
         language: string;
         min_characters_per_comment: number;
         max_characters_per_comment: number
+    }>;
+});
+
+export const useGetTags = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/tags', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Basic c2ViYToxMjM0NTY='
+        },
+    });
+    return (await response.json()) as Array<{
+        id: string;
+        name: string;
     }>;
 });
 
@@ -133,7 +146,7 @@ export const usePostDebate = routeAction$(
         }).max(5000, { message: "Must be 5000 or fewer characters long" }),
         creator_id: z.string(),
         community_id: z.string(),
-        level: z.string().optional(),
+        tags: z.array(z.string()),
     })
 );
 
