@@ -1,14 +1,11 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
-import { Separator } from '~/components/ui';
-import CardDebate from "~/components/cards/CardDebate";
-import FormDebateGlobal from "~/components/forms/FormDebateGlobal";
-import Modal from '~/components/modal/modal';
-import { useSession } from "~/routes/plugin@auth";
+import ListDebates from "~/components/list/ListDebates";
+import ListTags from "~/components/list/ListTags";
 
-export const useGetDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates', {
+export const useGetGlobalDebates = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/debates/global', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -48,37 +45,54 @@ export const usePostDebate = routeAction$(
         return (await response.json());
     },
     zod$({
-        title: z.string({
-            required_error: "Title is required",
-            invalid_type_error: "Title must be a string",
-        }).min(10, { message: "Must be 10 or more characters long" }).max(100, { message: "Must be 100 or fewer characters long" }),
+        title: z
+            .string()
+            .min(5, { message: "Title must be at least 5 characters long" })
+            .max(100, { message: "Title must be 100 characters or less" }),
         description: z.string({
             required_error: "Description is required",
             invalid_type_error: "Description must be a string",
         }).max(5000, { message: "Must be 5000 or fewer characters long" }),
-        level: z.string().optional(),
+        creator_id: z.string(),
+        community_id: z.string(),
+        tags: z.array(z.string()),
     })
 );
 
+export const useGetTags = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/tags', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Basic c2ViYToxMjM0NTY='
+        },
+    });
+    return (await response.json()) as Array<{
+        id: string;
+        name: string;
+    }>;
+});
+
 export default component$(() => {
-    const getDebates = useGetDebates();
-    const postDebate = usePostDebate();
-    const session = useSession();
-    const debates = getDebates.value;
+    const globalDebates = useGetGlobalDebates();
+    const tags = useGetTags();
 
     return (
         <div>
-            <FormDebateGlobal />
+            <ListTags tags={tags.value} />
+            <ListDebates
+                title="Global Debates"
+                debates={globalDebates.value}
+            />
         </div>
     );
 });
 
 export const head: DocumentHead = {
-    title: "Welcome to Qwik",
+    title: "Global Debate",
     meta: [
         {
             name: "description",
-            content: "Qwik site description",
+            content: "Global Debate description",
         },
     ],
 };

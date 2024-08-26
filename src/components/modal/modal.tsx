@@ -7,9 +7,6 @@ interface ModalProps {
     trigger: string;
     title?: string;
     description?: string;
-    show?: {
-        value: boolean;
-    };
     showFooter?: boolean;
     onClose?: () => void;
     onClickExpand?: () => void;
@@ -17,7 +14,7 @@ interface ModalProps {
 
 export default component$<ModalProps>((props) => {
     useStyles$(styles);
-    const show = props.show || useSignal(false);
+    const show = useSignal(false);
     return (
         <Modal.Root bind:show={show}>
             <Modal.Trigger class="modal-trigger">{props.trigger}</Modal.Trigger>

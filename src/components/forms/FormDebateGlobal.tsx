@@ -2,25 +2,25 @@ import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
 import { Form } from '@builder.io/qwik-city';
 import { Button, Combobox, FileInput, Input, Label, Textarea } from '~/components/ui';
 import { LuCheck, LuChevronDown, LuLoader2, LuX } from "@qwikest/icons/lucide";
-import { useGetTags, usePostDebate } from "~/routes/debates";
+import { usePostDebate } from "~/routes/debates";
 import styles from "./form.css?inline";
 
 export default component$(() => {
     useStyles$(styles);
-
+    
     const isLoading = useSignal(false);
     const title = useSignal('');
     const description = useSignal('');
     const file = useSignal<any>('');
-
+    
     const action = usePostDebate();
-
+    
     const displayValues = useSignal<string[]>([]);
     const selected = useSignal<string[]>([]);
-
+    
     const inputRef = useSignal<HTMLInputElement>();
-
-    const tags = useGetTags()
+    
+    // const tags = useGetTags()
     
     return (
         <Form
@@ -66,7 +66,7 @@ export default component$(() => {
                 />
             </div>
 
-            {selected.value.map((item, index) => (
+            {/* {selected.value.map((item, index) => (
                 <input type="hidden" name={`tags.${index}`} value={item}></input>
             ))}
 
@@ -125,7 +125,7 @@ export default component$(() => {
                         ))}
                     </Combobox.Popover>
                 </Combobox.Root>
-            </div>
+            </div> */}
 
             <input type="hidden" name="creator_id" value="1" />
             <input type="hidden" name="community_id" value="1" />

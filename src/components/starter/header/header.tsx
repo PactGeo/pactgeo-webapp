@@ -5,6 +5,7 @@ import { Avatar } from "~/components/ui/avatar/avatar";
 import styles from "./header.css?inline";
 import { Button, Popover } from "~/components/ui";
 import { Link, useNavigate } from "@builder.io/qwik-city";
+import { ThemeSwitch } from "~/components/ThemeSwitch";
 
 interface LoggedInMenuProps {
   name?: string,
@@ -43,7 +44,7 @@ export const LoggedInMenu = component$<LoggedInMenuProps>((props) => {
               <Avatar.Root>
                 <Avatar.Image src={props.image} alt={props.name} />
                 <Avatar.Fallback>{props.name}</Avatar.Fallback>
-              </Avatar.Root> 
+              </Avatar.Root>
             )
             : null
           }
@@ -87,17 +88,19 @@ export default component$(() => {
   return (
     <div class="w-full h-full bg-neutral-50">
       <header class="flex justify-center w-full text-white border-0 bg-primary-700 h-14 md:h-20 border-neutral-200">
-        <div class="flex items-center flex-row flex-nowrap justify-start h-full max-w-[1536px] w-full px-4 md:px-10">
+        <div class="flex items-center flex-row flex-nowrap justify-start h-full w-full px-4 md:px-10">
           <a href="/" aria-label="SF Homepage" class="inline-block text-white mr-auto">
             <QwikLogo height={50} width={143} />
           </a>
 
+          <ThemeSwitch />
+
           {session.value?.user
             ? <LoggedInMenu
-                name={session.value.user.name ?? ''}
-                email={session.value.user.email ?? ''}
-                image={session.value.user.image ?? ''}
-              />
+              name={session.value.user.name ?? ''}
+              email={session.value.user.email ?? ''}
+              image={session.value.user.image ?? ''}
+            />
             : <LoggedOutMenu />
           }
         </div>

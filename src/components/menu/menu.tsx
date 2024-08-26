@@ -1,34 +1,114 @@
-import { component$, useStyles$ } from "@builder.io/qwik";
-import { useContent, useLocation } from "@builder.io/qwik-city";
-import styles from "./menu.css?inline";
+import { component$, useStyles$ } from '@builder.io/qwik';
+import { Link, useLocation } from '@builder.io/qwik-city';
+import styles from './menu.css?inline';
+import { LuFlag, LuGlobe, LuGlobe2, LuHome, LuLandmark, LuMap, LuMapPin, LuMessageCircle, LuMessageSquare, LuThumbsUp } from '@qwikest/icons/lucide';
+import { cn } from '@qwik-ui/utils';
+import { Separator } from '~/components/ui';
 
-export default component$(() => {
-    const { menu } = useContent();
-    const { url } = useLocation();
+interface MenuProps {
+    class?: string;
+}
+
+export default component$<MenuProps>((props) => {
     useStyles$(styles);
+    const { url } = useLocation();
+    console.log('url.pathname', url.pathname)
+
+    const menuItems = [
+        { name: 'Home', path: '/', icon: <LuHome /> }
+    ];
+
+    const menuItems2 = [
+        { name: 'Global', path: '/debates/global/', icon: <LuGlobe /> },
+        { name: 'International', path: '/debates/international/', icon: <LuGlobe2 /> },
+        { name: 'National', path: '/debates/national/', icon: <LuFlag /> },
+        { name: 'Provincial', path: '/debates/provincial/', icon: <LuMap /> },
+        { name: 'Municipal', path: '/debates/municipal/', icon: <LuLandmark /> },
+    ]
+
+    const menuItems3 = [
+        { name: 'America', path: '/continents/america/', icon: <LuHome /> },
+        { name: 'Argentina', path: '/countries/argentina/', icon: <LuHome /> },
+        { name: 'Buenos Aires', path: '/countries/argentina/buenos-aires/', icon: <LuHome /> },
+        { name: 'Miramar', path: '/countries/argentina/buenos-aires/miramar/', icon: <LuHome /> },
+    ]
+    
+    const menuItems4 = [
+        { name: 'Mis Debates', path: '/mis-debates/', icon: <LuMessageSquare /> },
+        { name: 'Mis Comentarios', path: '/mis-comentarios/', icon: <LuMessageCircle /> },
+        { name: 'Mis Votos', path: '/mis-votos/', icon: <LuThumbsUp /> },
+    ]
+
     return (
-        <nav class="menu">
-            {menu
-                ? menu.items?.map((item, index) => (
-                    <div key={index}>
-                        <h5>{item.text}</h5>
-                        <ul>
-                            {item.items?.map((item, subIndex) => (
-                                <li key={`item-${index}-${subIndex}`}>
-                                    <a
-                                        href={item.href}
-                                        class={{
-                                            'is-active': url.pathname === item.href,
-                                        }}
-                                    >
-                                        {item.text}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))
-                : null}
+        <nav class={cn('bg-white w-64 shadow-lg h-full overflow-y-auto', props.class)}>
+            <ul class='m-2 pl-0'>
+                {menuItems.map(item => (
+                    <li
+                        key={item.path}
+                        class={cn(
+                            'flex gap-2 items-center p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
+                            url.pathname === item.path ? 'bg-gray-300 font-extrabold' : ''
+                        )}
+                    >
+                        <span>{item.icon}</span>
+                        <Link href={item.path} class="text-slate-500 rounded-lg">{item.name}</Link>
+                    </li>
+                ))}
+            </ul>
+            <Separator orientation="horizontal" class="separator-top my-2" />
+            <h3 class='m-2 text-lg text-gray-700 font-bold'>
+                Debates
+            </h3>
+            <ul class='m-2 pl-0'>
+                {menuItems2.map(item => (
+                    <li
+                        key={item.path}
+                        class={cn(
+                            'flex gap-2 items-center p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
+                            url.pathname === item.path ? 'bg-gray-300 font-extrabold' : ''
+                        )}
+                    >
+                        <span>{item.icon}</span>
+                        <Link href={item.path} class="text-slate-500 rounded-lg">{item.name}</Link>
+                    </li>
+                ))}
+            </ul>
+            <Separator orientation="horizontal" class="separator-top my-2" />
+            <h3 class='m-2 text-lg text-gray-700 font-bold'>
+                Mis Comunidades
+            </h3>
+            <ul class='m-2 pl-0'>
+                {menuItems3.map(item => (
+                    <li
+                        key={item.path}
+                        class={cn(
+                            'flex gap-2 items-center p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
+                            url.pathname === item.path ? 'bg-gray-300 font-extrabold' : ''
+                        )}
+                    >
+                        <span>{item.icon}</span>
+                        <Link href={item.path} class="text-slate-500 rounded-lg">{item.name}</Link>
+                    </li>
+                ))}
+            </ul>
+            <Separator orientation="horizontal" class="separator-top my-2" />
+            <h3 class='m-2 text-lg text-gray-700 font-bold'>
+                Mis Aportes
+            </h3>
+            <ul class='m-2 pl-0'>
+                {menuItems4.map(item => (
+                    <li
+                        key={item.path}
+                        class={cn(
+                            'flex gap-2 items-center p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
+                            url.pathname === item.path ? 'bg-gray-300 font-extrabold' : ''
+                        )}
+                    >
+                        <span>{item.icon}</span>
+                        <Link href={item.path} class="text-slate-500 rounded-lg">{item.name}</Link>
+                    </li>
+                ))}
+            </ul>
         </nav>
     );
 });

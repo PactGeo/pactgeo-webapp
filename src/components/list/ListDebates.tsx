@@ -3,11 +3,12 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 import { useNavigate } from '@builder.io/qwik-city';
 import { Button, Separator } from '~/components/ui';
 import CardDebate from "~/components/cards/CardDebate";
+import EmptyDebates from "~/components/EmptyState/EmptyDebates";
 import FormDebateGlobal from "~/components/forms/FormDebateGlobal";
 import Modal from '~/components/modal/modal';
 import { useSession } from "~/routes/plugin@auth";
 import TableDebates from "~/components/table/TableDebates";
-import { LuLayoutGrid, LuPackageSearch, LuTable } from "@qwikest/icons/lucide";
+import { LuLayoutGrid, LuTable } from "@qwikest/icons/lucide";
 import { Tooltip } from "@qwik-ui/headless";
 import { cn } from "@qwik-ui/utils";
 
@@ -20,7 +21,6 @@ export default component$<ListDebatesProps>(({ title, debates }) => {
     const nav = useNavigate();
     const onClickExpand = $(() => nav('/debates/new'))
 
-    const showModal = useSignal(false);
     const viewMode = useSignal('cards');
     const session = useSession();
 
@@ -45,7 +45,6 @@ export default component$<ListDebatesProps>(({ title, debates }) => {
                             onClickExpand={onClickExpand}
                             title="New Debate"
                             trigger="New"
-                            show={showModal}
                         >
                             <FormDebateGlobal />
                         </Modal>
@@ -60,14 +59,8 @@ export default component$<ListDebatesProps>(({ title, debates }) => {
                     )}
                 </div>
             </div>
-            <Separator orientation="horizontal" class="separator-top mb-2" />
-            {debates.length === 0 && (
-                <div class="flex justify-center items-center">
-                    <LuPackageSearch class="text-3xl" />
-                    <br />
-                    <span>Data Not Found</span>
-                </div>
-            )}
+            <Separator orientation="horizontal" class="mb-2" />
+            {debates.length === 0 && <EmptyDebates />}
             {viewMode.value === 'table' && (
                 <TableDebates
                     debates={debates.map(d => ({ id: d.id, title: d.title, creator_name: session.value?.user?.name ?? '', created_at: d.created_at, comments_count: d.comments_count, last_comment_at: d.last_comment_at, tags: ['tag1', 'tag2'] }))}

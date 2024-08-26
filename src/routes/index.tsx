@@ -1,115 +1,219 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
-import { Separator } from '~/components/ui';
-import CardDebate from "~/components/cards/CardDebate";
-import FormDebateGlobal from "~/components/forms/FormDebateGlobal";
-import Modal from '~/components/modal/modal';
-import { useSession } from "~/routes/plugin@auth";
+import { Button, Separator } from '~/components/ui';
+import ListDebates from "~/components/list/ListDebates";
+import { cn } from "@qwik-ui/utils";
 
-export const useGetDebates = routeLoader$(async () => {
-  const response = await fetch('http://localhost:8000/debates', {
-    headers: {
-      Accept: 'application/json',
-      Authorization: 'Basic c2ViYToxMjM0NTY='
-    },
-  });
-  return (await response.json()) as Array<{
-    id: string;
-    title: string;
-    description: string;
-    views_count: number;
-    likes_count: number;
-    dislikes_count: number;
-    comments_count: number;
-    creator_id: number;
-    community_id: number;
-    created_at: string;
-    updated_at: string;
-    last_comment_at: string;
-    language: string;
-    min_characters_per_comment: number;
-    max_characters_per_comment: number
-  }>;
+export const useGetGlobalDebates = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/debates/global', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Basic c2ViYToxMjM0NTY='
+        },
+    });
+    return (await response.json()) as Array<{
+        id: string;
+        title: string;
+        description: string;
+        views_count: number;
+        likes_count: number;
+        dislikes_count: number;
+        comments_count: number;
+        creator_id: number;
+        community_id: number;
+        created_at: string;
+        updated_at: string;
+        last_comment_at: string;
+        language: string;
+        min_characters_per_comment: number;
+        max_characters_per_comment: number
+    }>;
+});
+
+export const useGetInternationalDebates = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/debates/international', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Basic c2ViYToxMjM0NTY='
+        },
+    });
+    return (await response.json()) as Array<{
+        id: string;
+        title: string;
+        description: string;
+        views_count: number;
+        likes_count: number;
+        dislikes_count: number;
+        comments_count: number;
+        creator_id: number;
+        community_id: number;
+        created_at: string;
+        updated_at: string;
+        last_comment_at: string;
+        language: string;
+        min_characters_per_comment: number;
+        max_characters_per_comment: number
+    }>;
+});
+
+export const useGetNationalDebates = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/debates/national', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Basic c2ViYToxMjM0NTY='
+        },
+    });
+    return (await response.json()) as Array<{
+        id: string;
+        title: string;
+        description: string;
+        views_count: number;
+        likes_count: number;
+        dislikes_count: number;
+        comments_count: number;
+        creator_id: number;
+        community_id: number;
+        created_at: string;
+        updated_at: string;
+        last_comment_at: string;
+        language: string;
+        min_characters_per_comment: number;
+        max_characters_per_comment: number
+    }>;
+});
+
+export const useGetLocalDebates = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/debates/locales', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Basic c2ViYToxMjM0NTY='
+        },
+    });
+    return (await response.json()) as Array<{
+        id: string;
+        title: string;
+        description: string;
+        views_count: number;
+        likes_count: number;
+        dislikes_count: number;
+        comments_count: number;
+        creator_id: number;
+        community_id: number;
+        created_at: string;
+        updated_at: string;
+        last_comment_at: string;
+        language: string;
+        min_characters_per_comment: number;
+        max_characters_per_comment: number
+    }>;
+});
+
+export const useGetTags = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/tags', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Basic c2ViYToxMjM0NTY='
+        },
+    });
+    return (await response.json()) as Array<{
+        id: string;
+        name: string;
+    }>;
 });
 
 export const usePostDebate = routeAction$(
-  async (debate) => {
-    console.log('DEBATE', debate);
-    const response = await fetch('http://localhost:8000/debates', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Basic c2ViYToxMjM0NTY='
-      },
-      body: JSON.stringify(debate),
-    });
-    return (await response.json());
-  },
-  zod$({
-    title: z.string({
-      required_error: "Title is required",
-      invalid_type_error: "Title must be a string",
-    }).min(10, { message: "Must be 10 or more characters long" }).max(100, { message: "Must be 100 or fewer characters long" }),
-    description: z.string({
-      required_error: "Description is required",
-      invalid_type_error: "Description must be a string",
-    }).max(5000, { message: "Must be 5000 or fewer characters long" }),
-    level: z.string().optional(),
-  })
+    async (debate) => {
+        console.log('DEBATE', debate);
+        const response = await fetch('http://localhost:8000/debates', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: 'Basic c2ViYToxMjM0NTY='
+            },
+            body: JSON.stringify(debate),
+        });
+        return (await response.json());
+    },
+    zod$({
+        title: z
+            .string()
+            .min(5, { message: "Title must be at least 5 characters long" })
+            .max(100, { message: "Title must be 100 characters or less" }),
+        description: z.string({
+            required_error: "Description is required",
+            invalid_type_error: "Description must be a string",
+        }).max(5000, { message: "Must be 5000 or fewer characters long" }),
+        creator_id: z.string(),
+        community_id: z.string(),
+        tags: z.array(z.string()),
+    })
 );
 
 export default component$(() => {
-  const getDebates = useGetDebates();
-  const session = useSession();
-  const debates = getDebates.value;
+    const globalDebates = useGetGlobalDebates();
+    const internationalDebates = useGetInternationalDebates();
+    const nationalDebates = useGetNationalDebates();
+    const localDebates = useGetLocalDebates();
+    const tags = useGetTags();
 
-  const selectedLevel = useSignal<string>('Global');
+    const selectedTag = useSignal('all')
 
-  return (
-    <>
-      <div class="container">
-        <div class="flex justify-between items-end">
-          <h1>Global Debates</h1>
-          {session.value?.user ? (
-            <Modal
-              trigger="New"
-              title="New Global Debate"
-              description="Share the most important challenge facing your community."
-            >
-              <FormDebateGlobal selectedLevel={selectedLevel.value} />
-            </Modal>
-          ):(
-            <Modal
-              trigger="New"
-              title="You must log in"
-              description="You must log in to create a new debate"
-            >
-              <button>Log in</button>
-            </Modal>
-          )}
+    return (
+        <div>
+            <div class="mb-2">
+                <Button
+                    class={cn(
+                        "bg-gray-100 text-black rounded-md px-4 py-2 m-1 flex-shrink-0 hover:bg-gray-200 focus:outline-none",
+                        selectedTag.value === 'all' ? 'bg-black text-white' : 'bg-gray-100 text-black hover:bg-gray-200'
+                    )}
+                    size="sm"
+                    key="all"
+                    onClick$={() => selectedTag.value = 'all'} 
+                >
+                    All
+                </Button>
+                {tags.value.map((tag) => (
+                    <Button
+                        class={cn(
+                            "bg-gray-100 text-black rounded-md px-4 py-2 m-1 flex-shrink-0 hover:bg-gray-200 focus:outline-none",
+                            selectedTag.value === tag.name ? 'bg-black text-white' : 'bg-gray-100 text-black hover:bg-gray-200'
+                        )}
+                        size="sm"
+                        key={tag.id}
+                        onClick$={() => selectedTag.value = tag.name} 
+                    >
+                        {tag.name}
+                    </Button>
+                ))}
+            </div>
+            <ListDebates
+                title="Global Debates"
+                debates={globalDebates.value}
+            />
+            <ListDebates
+                title="International Debates"
+                debates={internationalDebates.value}
+            />
+            <ListDebates
+                title="National Debates"
+                debates={nationalDebates.value}
+            />
+            <ListDebates
+                title="Local Debates"
+                debates={localDebates.value}
+            />
         </div>
-        <Separator orientation="horizontal" class="separator-top my-2" />
-        {debates.length === 0 && <p>No debates found</p>}
-        <ul class="flex gap-8">
-          {debates.map((debate) => (
-            <li key={`debate-${debate.id}`}>
-              <CardDebate debate={debate}/>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
-  );
+    );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
-  meta: [
-    {
-      name: "description",
-      content: "Qwik site description",
-    },
-  ],
+    title: "GeoCovenant",
+    meta: [
+        {
+            name: "description",
+            content: "Debates between people and communities from all over the world",
+        },
+    ],
 };

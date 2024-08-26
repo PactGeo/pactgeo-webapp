@@ -1,7 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
-import { Separator } from '~/components/ui';
 import ListDebates from "~/components/list/ListDebates";
 
 export const useGetGlobalDebates = routeLoader$(async () => {
@@ -108,19 +107,6 @@ export const useGetLocalDebates = routeLoader$(async () => {
     }>;
 });
 
-export const useGetTags = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/tags', {
-        headers: {
-            Accept: 'application/json',
-            Authorization: 'Basic c2ViYToxMjM0NTY='
-        },
-    });
-    return (await response.json()) as Array<{
-        id: string;
-        name: string;
-    }>;
-});
-
 export const usePostDebate = routeAction$(
     async (debate) => {
         console.log('DEBATE', debate);
@@ -157,29 +143,24 @@ export default component$(() => {
     const localDebates = useGetLocalDebates();
 
     return (
-        <>
-            <div class="container">
-                <ListDebates
-                    title="Global Debates"
-                    debates={globalDebates.value}
-                />
-                <Separator orientation="horizontal" class="separator-top my-6" />
-                <ListDebates
-                    title="International Debates"
-                    debates={internationalDebates.value}
-                />
-                <Separator orientation="horizontal" class="separator-top my-6" />
-                <ListDebates
-                    title="National Debates"
-                    debates={nationalDebates.value}
-                />
-                <Separator orientation="horizontal" class="separator-top my-6" />
-                <ListDebates
-                    title="Local Debates"
-                    debates={localDebates.value}
-                />
-            </div>
-        </>
+        <div>
+            <ListDebates
+                title="Global Debates"
+                debates={globalDebates.value}
+            />
+            <ListDebates
+                title="International Debates"
+                debates={internationalDebates.value}
+            />
+            <ListDebates
+                title="National Debates"
+                debates={nationalDebates.value}
+            />
+            <ListDebates
+                title="Local Debates"
+                debates={localDebates.value}
+            />
+        </div>
     );
 });
 
