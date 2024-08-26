@@ -2,7 +2,7 @@ import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
 import { Form } from '@builder.io/qwik-city';
 import { Button, Combobox, FileInput, Input, Label, Textarea } from '~/components/ui';
 import { LuCheck, LuChevronDown, LuLoader2, LuX } from "@qwikest/icons/lucide";
-import { usePostDebate } from "~/routes/debates";
+import { usePostDebate } from "~/routes/debates/global";
 import styles from "./form.css?inline";
 
 export default component$(() => {

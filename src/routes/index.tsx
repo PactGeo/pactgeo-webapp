@@ -4,6 +4,7 @@ import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
 import { Button, Separator } from '~/components/ui';
 import ListDebates from "~/components/list/ListDebates";
 import { cn } from "@qwik-ui/utils";
+import ListTags from "~/components/list/ListTags";
 
 export const useGetGlobalDebates = routeLoader$(async () => {
     const response = await fetch('http://localhost:8000/debates/global', {
@@ -158,36 +159,9 @@ export default component$(() => {
     const localDebates = useGetLocalDebates();
     const tags = useGetTags();
 
-    const selectedTag = useSignal('all')
-
     return (
         <div>
-            <div class="mb-2">
-                <Button
-                    class={cn(
-                        "bg-gray-100 text-black rounded-md px-4 py-2 m-1 flex-shrink-0 hover:bg-gray-200 focus:outline-none",
-                        selectedTag.value === 'all' ? 'bg-black text-white' : 'bg-gray-100 text-black hover:bg-gray-200'
-                    )}
-                    size="sm"
-                    key="all"
-                    onClick$={() => selectedTag.value = 'all'} 
-                >
-                    All
-                </Button>
-                {tags.value.map((tag) => (
-                    <Button
-                        class={cn(
-                            "bg-gray-100 text-black rounded-md px-4 py-2 m-1 flex-shrink-0 hover:bg-gray-200 focus:outline-none",
-                            selectedTag.value === tag.name ? 'bg-black text-white' : 'bg-gray-100 text-black hover:bg-gray-200'
-                        )}
-                        size="sm"
-                        key={tag.id}
-                        onClick$={() => selectedTag.value = tag.name} 
-                    >
-                        {tag.name}
-                    </Button>
-                ))}
-            </div>
+            <ListTags tags={tags.value} />
             <ListDebates
                 title="Global Debates"
                 debates={globalDebates.value}

@@ -55,7 +55,7 @@ export const usePostDebate = routeAction$(
         }).max(5000, { message: "Must be 5000 or fewer characters long" }),
         creator_id: z.string(),
         community_id: z.string(),
-        tags: z.array(z.string()),
+        // tags: z.array(z.string()),
     })
 );
 

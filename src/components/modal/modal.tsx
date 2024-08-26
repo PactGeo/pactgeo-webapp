@@ -1,4 +1,4 @@
-import { component$, Slot, useSignal, useStyles$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { component$, Slot, useSignal, useStyles$ } from "@builder.io/qwik";
 import styles from "./modal.css?inline";
 import { Modal, Separator } from '~/components/ui';
 import { LuMaximize2, LuX } from "@qwikest/icons/lucide";
@@ -7,6 +7,9 @@ interface ModalProps {
     trigger: string;
     title?: string;
     description?: string;
+    isOpen?: {
+        value: boolean;
+    };
     showFooter?: boolean;
     onClose?: () => void;
     onClickExpand?: () => void;
@@ -14,9 +17,9 @@ interface ModalProps {
 
 export default component$<ModalProps>((props) => {
     useStyles$(styles);
-    const show = useSignal(false);
+    const isOpen = props.isOpen || useSignal(false);
     return (
-        <Modal.Root bind:show={show}>
+        <Modal.Root bind:show={isOpen}>
             <Modal.Trigger class="modal-trigger">{props.trigger}</Modal.Trigger>
             <Modal.Panel class="modal-panel pt-2">
                 <div class="flex justify-start items-center gap-2 py-2">

@@ -2,9 +2,13 @@ import { component$ } from "@builder.io/qwik";
 import { LuList } from "@qwikest/icons/lucide";
 import { Button } from '~/components/ui';
 
-export default component$(() => {
+interface EmptyDebatesProps {
+    onClickAction: () => void;
+}
+
+export default component$<EmptyDebatesProps>(({ onClickAction }) => {
     return (
-        <div class="w-full max-w-md mx-auto">
+        <div class="w-full max-w-md mx-auto border ">
             <div class="flex flex-col items-center justify-center space-y-4 text-center p-6">
                 <div class="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
                     <LuList class="w-6 h-6 text-muted-foreground" />
@@ -13,7 +17,7 @@ export default component$(() => {
                 <p class="text-sm text-muted-foreground">
                     Parece que nadie ha creado ningún debate para esta comunidad. ¿Por qué no empiezas agregando uno?
                 </p>
-                <Button>
+                <Button onClick$={onClickAction}>
                     Agregar nuevo debate
                 </Button>
             </div>

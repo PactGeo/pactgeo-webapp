@@ -12,7 +12,6 @@ interface MenuProps {
 export default component$<MenuProps>((props) => {
     useStyles$(styles);
     const { url } = useLocation();
-    console.log('url.pathname', url.pathname)
 
     const menuItems = [
         { name: 'Home', path: '/', icon: <LuHome /> }

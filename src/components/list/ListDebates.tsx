@@ -22,7 +22,11 @@ export default component$<ListDebatesProps>(({ title, debates }) => {
     const onClickExpand = $(() => nav('/debates/new'))
 
     const viewMode = useSignal('cards');
+    const isOpenModal = useSignal(false);
+
     const session = useSession();
+    
+    const onClickAction = $(() =>isOpenModal.value = !isOpenModal.value)
 
     return (
         <div>
@@ -42,6 +46,7 @@ export default component$<ListDebatesProps>(({ title, debates }) => {
                     {session.value?.user ? (
                         <Modal
                             description="Share the most important challenge facing your community."
+                            isOpen={isOpenModal}
                             onClickExpand={onClickExpand}
                             title="New Debate"
                             trigger="New"
@@ -60,7 +65,7 @@ export default component$<ListDebatesProps>(({ title, debates }) => {
                 </div>
             </div>
             <Separator orientation="horizontal" class="mb-2" />
-            {debates.length === 0 && <EmptyDebates />}
+            {debates.length === 0 && <EmptyDebates onClickAction={onClickAction} />}
             {viewMode.value === 'table' && (
                 <TableDebates
                     debates={debates.map(d => ({ id: d.id, title: d.title, creator_name: session.value?.user?.name ?? '', created_at: d.created_at, comments_count: d.comments_count, last_comment_at: d.last_comment_at, tags: ['tag1', 'tag2'] }))}
