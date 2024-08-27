@@ -5,20 +5,21 @@ import { LuCheck, LuChevronDown, LuLoader2, LuX } from "@qwikest/icons/lucide";
 import { usePostDebate } from "~/routes/debates/global";
 import styles from "./form.css?inline";
 
-export default component$(() => {
+interface FormDebateGlobalProps {
+    onSubmitCompleted?: () => void;
+}
+
+export default component$<FormDebateGlobalProps>(({ onSubmitCompleted }) => {
     useStyles$(styles);
     
     const isLoading = useSignal(false);
     const title = useSignal('');
     const description = useSignal('');
     const file = useSignal<any>('');
+
+    const file_example = useSignal<any>('https://res.cloudinary.com/demo/image/upload/w_400/sample.jpg');
     
     const action = usePostDebate();
-    
-    const displayValues = useSignal<string[]>([]);
-    const selected = useSignal<string[]>([]);
-    
-    const inputRef = useSignal<HTMLInputElement>();
     
     // const tags = useGetTags()
     
@@ -27,6 +28,7 @@ export default component$(() => {
             action={action}
             onSubmitCompleted$={() => {
                 isLoading.value = false
+                !action.value?.failed && onSubmitCompleted && onSubmitCompleted()
             }}
         >
             <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
@@ -40,7 +42,6 @@ export default component$(() => {
                     name="title"
                     placeholder="Describe a key challenge for the community"
                     type="text"
-                    value={action.formData?.get('title')}
                 />
             </div>
 
@@ -56,7 +57,7 @@ export default component$(() => {
                 />
             </div>
 
-            <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
+            {/* <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
                 <FileInput
                     name="file"
                     id="file"
@@ -64,6 +65,14 @@ export default component$(() => {
                     bind:value={file}
                     label="Imagen/Video"
                 />
+            </div> */}
+
+            <div>
+                <Input name="image_url" type="text" bind:value={file_example} />
+            </div>
+
+            <div>
+                <Input type="hidden" name="type" value="global" />
             </div>
 
             {/* {selected.value.map((item, index) => (
@@ -127,10 +136,10 @@ export default component$(() => {
                 </Combobox.Root>
             </div> */}
 
-            <input type="hidden" name="creator_id" value="1" />
+            <input type="hidden" name="creator_id" value="2" />
             <input type="hidden" name="community_id" value="1" />
 
-            <Button type="submit" class="modal-save w-full" onClick$={() => isLoading.value = true}>
+            <Button type="submit" class="modal-save w-full" onClick$={() => isLoading.value = true} disabled={isLoading.value}>
                 {isLoading.value && <LuLoader2 class="mr-2 h-5 w-5 animate-spin" />}
                 {isLoading.value ? <span>Creating Debate</span> : <span>Create Debate</span>}
             </Button>

@@ -15,6 +15,7 @@ export const useGetGlobalDebates = routeLoader$(async () => {
         id: string;
         title: string;
         description: string;
+        image_url: string;
         views_count: number;
         likes_count: number;
         dislikes_count: number;
@@ -55,6 +56,8 @@ export const usePostDebate = routeAction$(
         }).max(5000, { message: "Must be 5000 or fewer characters long" }),
         creator_id: z.string(),
         community_id: z.string(),
+        image_url: z.string(),
+        type: z.string(),
         // tags: z.array(z.string()),
     })
 );

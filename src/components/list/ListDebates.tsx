@@ -18,15 +18,17 @@ interface ListDebatesProps {
 }
 
 export default component$<ListDebatesProps>(({ title, debates }) => {
+    console.log('debates', debates)
     const nav = useNavigate();
-    const onClickExpand = $(() => nav('/debates/new'))
-
+    
     const viewMode = useSignal('cards');
     const isOpenModal = useSignal(false);
-
+    
     const session = useSession();
     
-    const onClickAction = $(() =>isOpenModal.value = !isOpenModal.value)
+    const onClickAction = $(() => isOpenModal.value = !isOpenModal.value)
+    const onClickExpand = $(() => nav('/debates/new'))
+    const onSubmitCompleted = $(() => isOpenModal.value = false)
 
     return (
         <div>
@@ -34,14 +36,22 @@ export default component$<ListDebatesProps>(({ title, debates }) => {
                 <h1 class="text-4xl font-bold text-gray-900 text-center mt-4">{title}</h1>
                 <div class="flex items-center gap-2">
                     <Tooltip.Root gutter={4} flip>
-                        <Tooltip.Trigger onClick$={() => viewMode.value = 'table'} class={cn('mr-2', viewMode.value === 'table' ? 'text-red-600' : '')}>
-                            <LuTable />
+                        <Tooltip.Trigger
+                            onClick$={() => viewMode.value = 'cards'}
+                            class={cn('flex gap-1 mr-4', viewMode.value === 'cards' ? 'text-red-600' : '')}
+                        >
+                            <LuLayoutGrid /> Card
                         </Tooltip.Trigger>
-                        <Tooltip.Panel class="tooltip-panel">Table</Tooltip.Panel>
+                        <Tooltip.Panel class="tooltip-panel">Cards view</Tooltip.Panel>
                     </Tooltip.Root>
                     <Tooltip.Root gutter={4} flip>
-                        <Tooltip.Trigger onClick$={() => viewMode.value = 'cards'} class={cn('mr-4', viewMode.value === 'cards' ? 'text-red-600' : '')}><LuLayoutGrid /></Tooltip.Trigger>
-                        <Tooltip.Panel class="tooltip-panel">Cards</Tooltip.Panel>
+                        <Tooltip.Trigger
+                            onClick$={() => viewMode.value = 'table'}
+                            class={cn('flex gap-1 mr-2', viewMode.value === 'table' ? 'text-red-600' : '')}
+                        >
+                            <LuTable /> Table
+                        </Tooltip.Trigger>
+                        <Tooltip.Panel class="tooltip-panel">Table view</Tooltip.Panel>
                     </Tooltip.Root>
                     {session.value?.user ? (
                         <Modal
@@ -51,7 +61,7 @@ export default component$<ListDebatesProps>(({ title, debates }) => {
                             title="New Debate"
                             trigger="New"
                         >
-                            <FormDebateGlobal />
+                            <FormDebateGlobal onSubmitCompleted={onSubmitCompleted}  />
                         </Modal>
                     ) : (
                         <Modal
@@ -78,6 +88,7 @@ export default component$<ListDebatesProps>(({ title, debates }) => {
                             <CardDebate
                                 title={debate.title}
                                 description={debate.description}
+                                image={debate.image_url}
                                 creator_name={session.value?.user?.name ?? ''}
                                 created_at={debate.created_at}
                                 comments_count={debate.comments_count}

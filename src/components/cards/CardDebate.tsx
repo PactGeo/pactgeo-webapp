@@ -5,6 +5,7 @@ import styles from "./card-debate.css?inline";
 interface CardDebateProps {
     title: string;
     description: string;
+    image: string;
     creator_name: string;
     created_at: string;
     comments_count: number;
@@ -12,7 +13,7 @@ interface CardDebateProps {
     tags: string[];
 }
 
-export default component$<CardDebateProps>(({ title, description, creator_name, created_at, comments_count, last_comment_at, tags }) => {
+export default component$<CardDebateProps>(({ title, description, image, creator_name, created_at, comments_count, last_comment_at, tags }) => {
     useStylesScoped$(styles);
 
     return (
@@ -20,6 +21,7 @@ export default component$<CardDebateProps>(({ title, description, creator_name, 
             <div class="mb-4">
                 <h2 class="text-xl font-semibold text-gray-800">{title}</h2>
                 <p class="text-gray-600 mt-2 text-sm">{description}</p>
+                {image && <img src={image} alt={title} class="w-full h-48 object-cover mt-4 rounded-lg" />}
             </div>
             <div class="flex justify-between items-center text-gray-500 text-sm">
                 <div>

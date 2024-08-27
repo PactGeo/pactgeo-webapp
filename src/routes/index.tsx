@@ -95,6 +95,7 @@ export const useGetLocalDebates = routeLoader$(async () => {
         id: string;
         title: string;
         description: string;
+        image_url: string;
         views_count: number;
         likes_count: number;
         dislikes_count: number;
