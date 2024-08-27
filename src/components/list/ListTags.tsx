@@ -1,6 +1,6 @@
-import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStyles$ } from "@builder.io/qwik";
 import { cn } from "@qwik-ui/utils";
-import { LuChevronRightCircle } from "@qwikest/icons/lucide";
+import { LuChevronLeft, LuChevronRight } from "@qwikest/icons/lucide";
 import { Button } from "~/components/ui";
 import styles from "./list-tags.css?inline";
 
@@ -12,10 +12,47 @@ export default component$<ListTagsProps>(({ tags }) => {
     useStyles$(styles);
 
     const selectedTag = useSignal('all');
+    const scrollContainer = useSignal<Element>();
+    const isAtStart = useSignal(true);
+    const isAtEnd = useSignal(false);
+
+    const handleScrollRight = $(() => {
+        if (scrollContainer.value) {
+            scrollContainer.value.scrollBy({ left: 200, behavior: 'smooth' });
+            if (scrollContainer.value) {
+                const { scrollLeft, scrollWidth, clientWidth } = scrollContainer.value;
+                isAtEnd.value = scrollLeft + clientWidth >= scrollWidth - 60;
+                isAtStart.value = scrollLeft <= 60;
+            }
+        }
+    });
+
+    const handleScrollLeft = $(() => {
+        if (scrollContainer.value) {
+            scrollContainer.value.scrollBy({ left: -200, behavior: 'smooth' });
+            if (scrollContainer.value) {
+                const { scrollLeft, scrollWidth, clientWidth } = scrollContainer.value;
+                isAtEnd.value = scrollLeft + clientWidth >= scrollWidth - 60;
+                isAtStart.value = scrollLeft <= 60;
+            }
+        }
+    });
+
 
     return (
-        <div class="relative mb-2">
-            <div class="">
+        <div class="flex mb-2">
+            {!isAtStart.value && (
+                <div
+                    class="flex items-center p-3 ml-2 bg-gradient-to-r rounded-full cursor-pointer hover:bg-slate-200"
+                    onClick$={handleScrollLeft}
+                >
+                    <LuChevronLeft />
+                </div>
+            )}
+            <div
+                class="flex items-center space-x-2 overflow-x-auto hide-scroll-bar"
+                ref={scrollContainer}
+            >
                 <Button
                     class={cn(
                         "bg-gray-100 text-black rounded-md px-4 py-2 m-1 flex-shrink-0 hover:bg-gray-200 focus:outline-none",
@@ -41,9 +78,14 @@ export default component$<ListTagsProps>(({ tags }) => {
                     </Button>
                 ))}
             </div>
-            <div class="absolute right-0 top-0 h-full flex items-center bg-gradient-to-l from-white to-transparent">
-                <LuChevronRightCircle />
-            </div>
+            {!isAtEnd.value && (
+                <div
+                    class="flex items-center p-3 mr-2 bg-gradient-to-l rounded-full cursor-pointer hover:bg-slate-200"
+                    onClick$={handleScrollRight}
+                >
+                    <LuChevronRight />
+                </div>
+            )}
         </div>
     );
 });

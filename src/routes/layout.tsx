@@ -38,9 +38,9 @@ export default component$(() => {
   return (
     <div class="flex flex-col min-h-screen">
       <Header />
-      <div class="flex">
-        <Menu />
-        <main class="flex-1 px-10 py-4">
+      <div class="flex flex-grow">
+        <Menu class="flex-none w-64" />
+        <main class="flex-1 px-10 py-4 overflow-hidden">
           <Slot />
         </main>
       </div>
