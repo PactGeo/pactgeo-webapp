@@ -3,6 +3,7 @@ import { useServerTimeLoader } from "~/routes/layout";
 import { LuFacebook, LuTwitter, LuInstagram, LuYoutube } from "@qwikest/icons/lucide";
 import { QwikLogo } from '~/components/starter/icons/qwik';
 import { Button } from "~/components/ui";
+import { Link } from '@builder.io/qwik-city';
 
 const socialMedia = [
   {
@@ -59,19 +60,19 @@ export default component$(() => {
           </div>
           <div class="flex items-center justify-center gap-6 py-2 my-4 md:ml-auto md:my-0">
             {bottomLinks.map(({ label, link }) => (
-              <Button
+              <Link
                 key={label}
                 class="text-white no-underline typography-text-sm active:text-white active:underline hover:text-white hover:underline"
-                look="link"
+                href={link}
               >
                 {label}
-              </Button>
+              </Link>
             ))}
           </div>
         </div>
         <p class="flex items-center justify-center py-2 leading-5 text-center typography-text-sm text-white/50 font-body md:ml-6">
           <span class="flex items-center">
-            Made with &nbsp; <QwikLogo height={25} width={70} /> &nbsp; by &nbsp; <a href="https://sebastiancardoso.com/" target="_blank">SC</a>
+            Developed with &nbsp; <a href="https://qwik.dev/"><QwikLogo height={20} width={70} /></a> &nbsp; by &nbsp; <a href="https://sebastiancardoso.com/" target="_blank">SC</a>
           </span>
           <span class="ml-2">©{currentYear} Geocovenant</span>
         </p>

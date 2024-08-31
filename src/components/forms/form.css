@@ -1,249 +1,94 @@
-/* combobox */
-:root {
-    --combobox-width: 300px;
-    --select-width: 14rem;
+/* form.css */
+.modal-save {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-.combobox-root {
-    min-width: var(--combobox-width);
+.modal-save:hover {
+    background-color: #45a049;
 }
 
-.combobox-input {
-    all: unset;
+.modal-save:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+}
+
+.input, .textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     box-sizing: border-box;
-    background: transparent;
-    padding-inline: 0.5rem;
-    padding-right: 44px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.combobox-trigger {
-    border-radius: calc(var(--border-radius) / 2);
-    width: 44px;
-    background: hsla(var(--primary) / 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-left: 2px dotted hsla(var(--foreground));
-    position: absolute;
-    right: 0;
+.input:focus, .textarea:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+    outline: none;
 }
 
-.combobox-trigger[data-open] svg {
-    transform: rotate(180deg);
-}
-
-.combobox-trigger,
-.combobox-input {
-    height: 44px;
-}
-
-.combobox-control {
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    outline: 2px dotted hsla(var(--foreground));
-    position: relative;
-}
-
-.combobox-control:focus-within {
-    background: hsl(var(--primary) / 0.08);
-}
-
-.combobox-control[data-invalid] {
-    outline: 2px dotted #d2122e;
-}
-
-.combobox-popover {
-    width: 100%;
-    max-width: calc(var(--combobox-width) + 2.5rem);
-    background-color: hsl(var(--background));
-    padding: 0.5rem;
-    border: 2px dotted hsla(var(--foreground) / 0.6);
-    border-radius: calc(var(--border-radius) / 2);
-    color: hsl(var(--foreground));
-}
-
-.combobox-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    stroke: hsl(var(--foreground));
-}
-
-.combobox-trigger[data-open] .combobox-icon {
-    transform: rotate(180deg);
-}
-
-.combobox-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.combobox-label {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: hsla(var(--foreground) / 0.8);
-    padding-top: 0.5rem;
-}
-
-.combobox-max-height {
-    max-height: 12rem;
-    overflow-y: auto;
-}
-
-.combobox-group-label {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: hsla(var(--foreground) / 0.8);
-    padding-top: 0.5rem;
-}
-
-[data-highlighted] {
-    outline: 2px dotted hsla(var(--primary) / 1);
-    background: hsla(var(--primary) / 0.08);
-    border-radius: calc(var(--border-radius) / 2);
-}
-
-[data-disabled] {
-    opacity: 0.6;
-    background: hsl(var(--foreground) / 0.05);
-}
-
-.combobox-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    margin-inline: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    background-color: hsl(var(--muted));
-    margin-block: 0.25rem;
-}
-
-.combobox-pill-container {
-    padding-right: 44px;
-    width: 100%;
-}
-
-.combobox-multiple {
-    display: flex;
-    flex-direction: column;
-}
-
-.combobox-multiple input {
-    width: 100%;
-}
-
-.combobox-multiple .combobox-trigger {
-    min-height: 48px;
-    height: 100%;
-    aspect-ratio: 1 / 1;
-}
-
-.combobox-clear {
-    background: hsl(var(--secondary) / 0.08);
-}
-
-.combobox-control:focus-within .combobox-pill {
-    background-color: hsl(var(--foreground) / 0.08);
-}
-
-.combobox-control:focus-within .combobox-clear {
-    background: hsl(var(--secondary) / 0.25);
-}
-
-
-.select {
-    min-width: var(--select-width);
+.label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    display: block;
+    color: #333;
 }
 
 .select-trigger {
-    width: 100%;
-    height: 100%;
-    border: 2px dotted hsla(var(--primary) / 1);
-    min-height: 44px;
-    max-width: var(--select-width);
-    padding-block: 0.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0.25rem;
-}
-
-.select-trigger:hover {
-    background-color: hsla(var(--primary) / 0.08);
-}
-
-.select-trigger:focus-visible {
-    outline: 2px solid hsla(var(--primary) / 1);
-    outline-offset: 2px;
-}
-
-.select-trigger[data-invalid] {
-    border: 2px dotted #d2122e;
-}
-
-.select-popover {
-    width: 100%;
-    max-width: calc(var(--select-width));
-    background-color: hsl(var(--background));
-    padding: 0.5rem;
-    border: 2px dotted hsla(var(--foreground) / 0.6);
-    border-radius: calc(var(--border-radius) / 2);
-    color: hsl(var(--foreground));
-}
-
-.select-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.select-item span {
-    user-select: none;
+.select-trigger:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+    outline: none;
 }
 
-.select-item svg {
-    margin-inline-end: 0.25rem;
-}
-
-.select-group-label {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: hsla(var(--foreground) / 0.8);
-    padding-top: 0.5rem;
-}
-
-.select-max-height {
-    max-height: 15rem;
+.select-popover {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
     overflow-y: auto;
+    background-color: white;
+    margin-top: 4px;
 }
 
-.select-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    margin-inline: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    background-color: hsl(var(--muted));
-    margin-block: 0.25rem;
+.select-item {
+    padding: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.select-pill>span {
-    padding: 0.15rem;
-    background: hsl(var(--foreground) / 0.3);
-    border-radius: 50%;
+.select-item:hover {
+    background-color: #f0f0f0;
 }
 
-.select-pill svg {
-    stroke: white;
+.select-item.selected {
+    background-color: #4CAF50;
+    color: white;
 }
 
-[data-highlighted] {
-    background-color: hsla(var(--primary) / 0.08);
-    outline: 2px dotted hsla(var(--primary) / 1);
+.select-item-indicator {
+    margin-left: auto;
+    color: white;
 }
 
-[data-disabled] {
-    opacity: 0.6;
-    background: hsl(var(--foreground) / 0.05);
-}

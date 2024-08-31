@@ -1,7 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
-import ListDebates from "~/components/list/ListDebates";
+import ListDebates from "~/components/list/ListGlobalDebates";
 
 export const useGetGlobalDebates = routeLoader$(async () => {
     const response = await fetch('http://localhost:8000/debates/global', {
@@ -109,7 +109,6 @@ export const useGetLocalDebates = routeLoader$(async () => {
 
 export const usePostDebate = routeAction$(
     async (debate) => {
-        console.log('DEBATE', debate);
         const response = await fetch('http://localhost:8000/debates', {
             method: 'POST',
             headers: {

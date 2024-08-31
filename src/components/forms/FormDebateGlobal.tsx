@@ -1,15 +1,16 @@
 import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
 import { Form } from '@builder.io/qwik-city';
-import { Button, Combobox, FileInput, Input, Label, Textarea } from '~/components/ui';
+import { Button, Combobox, FileInput, Input, Label, Select, Textarea } from '~/components/ui';
 import { LuCheck, LuChevronDown, LuLoader2, LuX } from "@qwikest/icons/lucide";
 import { usePostDebate } from "~/routes/debates/global";
 import styles from "./form.css?inline";
 
 interface FormDebateGlobalProps {
     onSubmitCompleted?: () => void;
+    tags: { id: string, name: string }[];
 }
 
-export default component$<FormDebateGlobalProps>(({ onSubmitCompleted }) => {
+export default component$<FormDebateGlobalProps>(({ onSubmitCompleted, tags }) => {
     useStyles$(styles);
     
     const isLoading = useSignal(false);
@@ -18,10 +19,9 @@ export default component$<FormDebateGlobalProps>(({ onSubmitCompleted }) => {
     const file = useSignal<any>('');
 
     const file_example = useSignal<any>('https://res.cloudinary.com/demo/image/upload/w_400/sample.jpg');
+    const display = useSignal<string[]>([]);
     
     const action = usePostDebate();
-    
-    // const tags = useGetTags()
     
     return (
         <Form
@@ -31,6 +31,8 @@ export default component$<FormDebateGlobalProps>(({ onSubmitCompleted }) => {
                 !action.value?.failed && onSubmitCompleted && onSubmitCompleted()
             }}
         >
+            <input type="hidden" name="public" value="true" />
+            <input type="hidden" name="status" value="open" />
             <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
                 <Label for="title">Title</Label>
                 <Input
@@ -57,6 +59,27 @@ export default component$<FormDebateGlobalProps>(({ onSubmitCompleted }) => {
                 />
             </div>
 
+            <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
+                <Label for="description">Tags</Label>
+                <Select.Root bind:displayValue={display} multiple class="select" name="tags">
+                    <Select.Trigger class="select-trigger">
+                        <Select.DisplayValue>{display.value.join(', ')}</Select.DisplayValue>
+                    </Select.Trigger>
+                    <Select.Popover class="select-popover select-max-height">
+                        {tags.map((tag) => (
+                            <Select.Item value={tag.id} class="select-item" key={tag.id}>
+                                <Select.ItemLabel>{tag.name}</Select.ItemLabel>
+                                <Select.ItemIndicator><LuCheck /></Select.ItemIndicator>
+                            </Select.Item>
+                        ))}
+                    </Select.Popover>
+                </Select.Root>
+            </div>
+
+            {display.value.map((item, index) => (
+                <input type="hidden" name={`tags.${index}`} value={item}></input>
+            ))}
+
             {/* <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
                 <FileInput
                     name="file"
@@ -75,10 +98,7 @@ export default component$<FormDebateGlobalProps>(({ onSubmitCompleted }) => {
                 <Input type="hidden" name="type" value="global" />
             </div>
 
-            {/* {selected.value.map((item, index) => (
-                <input type="hidden" name={`tags.${index}`} value={item}></input>
-            ))}
-
+            {/* 
             <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
                 <Combobox.Root
                     class="combobox-root"

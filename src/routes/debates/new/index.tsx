@@ -35,7 +35,7 @@ export const useGetDebates = routeLoader$(async () => {
 
 export const usePostDebate = routeAction$(
     async (debate) => {
-        console.log('DEBATE', debate);
+        console.log('usePostDebate: ', debate)
         const response = await fetch('http://localhost:8000/debates', {
             method: 'POST',
             headers: {
@@ -56,19 +56,31 @@ export const usePostDebate = routeAction$(
             required_error: "Description is required",
             invalid_type_error: "Description must be a string",
         }).max(5000, { message: "Must be 5000 or fewer characters long" }),
+        tags: z.array(z.string()).optional(),
         level: z.string().optional(),
     })
 );
 
+export const useGetTags = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/tags', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Basic c2ViYToxMjM0NTY='
+        },
+    });
+    return (await response.json()) as Array<{
+        id: string;
+        name: string;
+    }>;
+});
+
 export default component$(() => {
     const getDebates = useGetDebates();
-    const postDebate = usePostDebate();
-    const session = useSession();
-    const debates = getDebates.value;
+    const tags = useGetTags()
 
     return (
         <div>
-            <FormDebateGlobal />
+            <FormDebateGlobal tags={tags.value} />
         </div>
     );
 });

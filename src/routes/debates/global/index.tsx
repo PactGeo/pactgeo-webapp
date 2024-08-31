@@ -1,39 +1,40 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
-import ListDebates from "~/components/list/ListDebates";
+import ListGlobalDebates from "~/components/list/ListGlobalDebates";
 import ListTags from "~/components/list/ListTags";
 
 export const useGetGlobalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates/global', {
+    const response = await fetch('http://localhost:8000/debates?debate_type=global', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
         },
     });
+    console.log('=====================================================================================')
     return (await response.json()) as Array<{
         id: string;
+        type: string;
         title: string;
         description: string;
         image_url: string;
+        public: boolean;
+        status: string;
         views_count: number;
         likes_count: number;
         dislikes_count: number;
-        comments_count: number;
-        creator_id: number;
-        community_id: number;
-        created_at: string;
-        updated_at: string;
         last_comment_at: string;
         language: string;
-        min_characters_per_comment: number;
-        max_characters_per_comment: number
+        creator_id: number;
+        creator_username: string;
+        created_at: string;
+        updated_at: string;
     }>;
 });
 
 export const usePostDebate = routeAction$(
     async (debate) => {
-        console.log('DEBATE', debate);
+        console.log('usePostDebate: ', debate)
         const response = await fetch('http://localhost:8000/debates', {
             method: 'POST',
             headers: {
@@ -46,6 +47,7 @@ export const usePostDebate = routeAction$(
         return (await response.json());
     },
     zod$({
+        public: z.string().optional(),
         title: z
             .string()
             .min(5, { message: "Title must be at least 5 characters long" })
@@ -58,7 +60,8 @@ export const usePostDebate = routeAction$(
         community_id: z.string(),
         image_url: z.string(),
         type: z.string(),
-        // tags: z.array(z.string()),
+        tags: z.array(z.string()).optional(),
+        status: z.string(),
     })
 );
 
@@ -77,12 +80,14 @@ export const useGetTags = routeLoader$(async () => {
 
 export default component$(() => {
     const globalDebates = useGetGlobalDebates();
+    console.log('globalDebates', globalDebates.value)
     const tags = useGetTags();
 
     return (
         <div>
             <ListTags tags={tags.value} />
-            <ListDebates
+            <ListGlobalDebates
+                tags={tags.value}
                 title="Global Debates"
                 debates={globalDebates.value}
             />

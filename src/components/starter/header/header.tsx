@@ -5,8 +5,8 @@ import { Avatar } from "~/components/ui/avatar/avatar";
 import styles from "./header.css?inline";
 import { Button, Popover } from "~/components/ui";
 import { Link, useNavigate } from "@builder.io/qwik-city";
-import { ThemeSwitch } from "~/components/ThemeSwitch";
-
+import { ThemeSwitch } from "~/components/ThemeSwitch/ThemeSwitch";
+import Logo from '~/media/icons/logo.svg?jsx';
 interface LoggedInMenuProps {
   name?: string,
   email?: string;
@@ -18,9 +18,7 @@ export const LoggedInMenu = component$<LoggedInMenuProps>((props) => {
   const signOut = useSignOut()
   const navItems = [
     { label: 'Communities', href: '/communities' },
-    { label: 'Debates', href: '/debates' },
   ];
-  const nav = useNavigate();
   return (
     <nav class="flex flex-row flex-nowrap">
       {navItems.map((navItem) => (
@@ -90,7 +88,8 @@ export default component$(() => {
       <header class="flex justify-center w-full text-white border-0 bg-primary-700 h-14 md:h-20 border-neutral-200">
         <div class="flex items-center flex-row flex-nowrap justify-start h-full w-full px-4 md:px-10">
           <a href="/" aria-label="SF Homepage" class="inline-block text-white mr-auto">
-            <QwikLogo height={50} width={143} />
+            {/* <QwikLogo height={50} width={143} /> */}
+            <Logo style={{ width: '64px', height: '64px'}} />
           </a>
 
           <ThemeSwitch />

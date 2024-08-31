@@ -45,12 +45,14 @@ export default component$<MenuProps>((props) => {
                     <li
                         key={item.path}
                         class={cn(
-                            'flex gap-2 items-center p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
+                            'p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
                             url.pathname === item.path ? 'bg-gray-300 font-extrabold' : ''
                         )}
                     >
-                        <span>{item.icon}</span>
-                        <Link href={item.path} class="text-slate-500 rounded-lg">{item.name}</Link>
+                        <Link href={item.path} class="flex gap-2 items-center text-slate-500 rounded-lg">
+                            <span>{item.icon}</span>
+                            <span>{item.name}</span>
+                        </Link>
                     </li>
                 ))}
             </ul>
@@ -63,12 +65,14 @@ export default component$<MenuProps>((props) => {
                     <li
                         key={item.path}
                         class={cn(
-                            'flex gap-2 items-center p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
+                            'p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
                             url.pathname === item.path ? 'bg-gray-300 font-extrabold' : ''
                         )}
                     >
-                        <span>{item.icon}</span>
-                        <Link href={item.path} class="text-slate-500 rounded-lg">{item.name}</Link>
+                        <Link href={item.path} class="flex gap-2 items-center text-slate-500 rounded-lg">
+                            <span>{item.icon}</span>
+                            <span>{item.name}</span>
+                        </Link>
                     </li>
                 ))}
             </ul>
@@ -81,12 +85,14 @@ export default component$<MenuProps>((props) => {
                     <li
                         key={item.path}
                         class={cn(
-                            'flex gap-2 items-center p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
+                            'p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
                             url.pathname === item.path ? 'bg-gray-300 font-extrabold' : ''
                         )}
                     >
-                        <span>{item.icon}</span>
-                        <Link href={item.path} class="text-slate-500 rounded-lg">{item.name}</Link>
+                        <Link href={item.path} class="flex gap-2 items-center text-slate-500 rounded-lg">
+                            <span>{item.icon}</span>
+                            <span>{item.name}</span>
+                        </Link>
                     </li>
                 ))}
             </ul>
@@ -99,12 +105,14 @@ export default component$<MenuProps>((props) => {
                     <li
                         key={item.path}
                         class={cn(
-                            'flex gap-2 items-center p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
+                            'p-2 text-lg text-gray-700 hover:bg-gray-100 rounded-lg',
                             url.pathname === item.path ? 'bg-gray-300 font-extrabold' : ''
                         )}
                     >
-                        <span>{item.icon}</span>
-                        <Link href={item.path} class="text-slate-500 rounded-lg">{item.name}</Link>
+                        <Link href={item.path} class="flex gap-2 items-center text-slate-500 rounded-lg">
+                            <span>{item.icon}</span>
+                            <span>{item.name}</span>
+                        </Link>
                     </li>
                 ))}
             </ul>

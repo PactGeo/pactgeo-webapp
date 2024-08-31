@@ -8,7 +8,7 @@ interface EmptyDebatesProps {
 
 export default component$<EmptyDebatesProps>(({ onClickAction }) => {
     return (
-        <div class="w-full max-w-md mx-auto border ">
+        <div class="w-full max-w-md mx-auto border mt-12">
             <div class="flex flex-col items-center justify-center space-y-4 text-center p-6">
                 <div class="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
                     <LuList class="w-6 h-6 text-muted-foreground" />
