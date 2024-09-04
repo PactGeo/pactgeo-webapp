@@ -1,10 +1,12 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
-import ListDebates from "~/components/list/ListGlobalDebates";
+import ListGlobalDebates from "~/components/list/ListGlobalDebates";
+import ListInternationalDebates from "~/components/list/ListInternationalDebates";
+import ListNationalDebates from "~/components/list/ListNationalDebates";
 
 export const useGetGlobalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates/global', {
+    const response = await fetch('http://localhost:8000/debates?debate_type=GLOBAL', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -30,7 +32,7 @@ export const useGetGlobalDebates = routeLoader$(async () => {
 });
 
 export const useGetInternationalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates/international', {
+    const response = await fetch('http://localhost:8000/debates?debate_type=INTERNATIONAL', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -56,7 +58,7 @@ export const useGetInternationalDebates = routeLoader$(async () => {
 });
 
 export const useGetNationalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates/national', {
+    const response = await fetch('http://localhost:8000/debates?debate_type=NATIONAL', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -135,30 +137,48 @@ export const usePostDebate = routeAction$(
     })
 );
 
+export const useGetTags = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/tags', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Basic c2ViYToxMjM0NTY='
+        },
+    });
+    return (await response.json()) as Array<{
+        id: string;
+        name: string;
+    }>;
+});
+
+
 export default component$(() => {
     const globalDebates = useGetGlobalDebates();
     const internationalDebates = useGetInternationalDebates();
     const nationalDebates = useGetNationalDebates();
     const localDebates = useGetLocalDebates();
+    const tags = useGetTags();
 
     return (
         <div>
-            <ListDebates
+            <ListGlobalDebates
                 title="Global Debates"
+                tags={tags.value}
                 debates={globalDebates.value}
             />
-            <ListDebates
+            <ListInternationalDebates
                 title="International Debates"
+                tags={tags.value}
                 debates={internationalDebates.value}
             />
-            <ListDebates
+            <ListNationalDebates
                 title="National Debates"
+                tags={tags.value}
                 debates={nationalDebates.value}
             />
-            <ListDebates
+            {/* <ListSubnationalDebates
                 title="Local Debates"
                 debates={localDebates.value}
-            />
+            /> */}
         </div>
     );
 });

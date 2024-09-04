@@ -5,7 +5,7 @@ import ListInternationalDebates from "~/components/list/ListInternationalDebates
 import ListTags from "~/components/list/ListTags";
 
 export const useGetInternationalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates?debate_type=international', {
+    const response = await fetch('http://localhost:8000/debates?debate_type=INTERNATIONAL', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -25,8 +25,6 @@ export const useGetInternationalDebates = routeLoader$(async () => {
         updated_at: string;
         last_comment_at: string;
         language: string;
-        min_characters_per_comment: number;
-        max_characters_per_comment: number
     }>;
 });
 
@@ -89,7 +87,7 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Internationals Debate | GeoCovenant",
+    title: "GeoCovenant | Internationals Debate",
     meta: [
         {
             name: "description",

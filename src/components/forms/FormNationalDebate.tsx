@@ -3,7 +3,7 @@ import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
 import { Form } from '@builder.io/qwik-city';
 import { Button, Combobox, FileInput, Input, Label, Select, Textarea, RadioGroup, Separator } from '~/components/ui';
 import { LuCheck, LuChevronDown, LuLoader2, LuLockKeyhole, LuUnlockKeyhole, LuX } from "@qwikest/icons/lucide";
-import { usePostNationalDebate } from "~/routes/debates/national";
+import { usePostNationalDebate } from "~/routes/debates/nationals";
 import styles from "./form.css?inline";
 
 interface FormInternationalDebateProps {
@@ -18,7 +18,7 @@ export default component$<FormInternationalDebateProps>(({ onSubmitCompleted, ta
     const isLoading = useSignal(false);
     const title = useSignal('');
     const description = useSignal('');
-    const file_example = useSignal<any>('https://res.cloudinary.com/demo/image/upload/w_400/sample.jpg');
+    const file_example = useSignal<any>('https://images.unsplash.com/photo-1724963475892-a3274091955e?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
     const display = useSignal<string[]>([]);
     const participatingCountries = useSignal<string[]>([]);
     const selectedCountries = useSignal<string[]>([]);

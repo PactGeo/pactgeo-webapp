@@ -1,3 +1,5 @@
+import countries from '~/data/countries';
+
 export function timeAgo(date: Date) {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
@@ -19,4 +21,14 @@ export function timeAgo(date: Date) {
         }
     }
     return "hace unos segundos";
+}
+
+export function formatDateISO(dateISO) {
+    const date = new Date(dateISO);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
+
+export function getFlagByName(name: string) {
+    return countries.find(c => c.name === name)?.flag;
 }

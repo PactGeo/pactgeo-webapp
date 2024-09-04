@@ -5,7 +5,7 @@ import ListDebates from "~/components/list/ListGlobalDebates";
 import ListTags from "~/components/list/ListTags";
 
 export const useGetGlobalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates/national', {
+    const response = await fetch('http://localhost:8000/debates?debate_type=LOCAL', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -79,7 +79,7 @@ export default component$(() => {
         <div>
             <ListTags tags={tags.value} />
             <ListDebates
-                title="Provincial Debates"
+                title="Municipal Debates"
                 debates={globalDebates.value}
             />
         </div>

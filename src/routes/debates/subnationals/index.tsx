@@ -1,11 +1,11 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$, routeAction$, zod$, z } from '@builder.io/qwik-city';
-import ListNationalDebates from "~/components/list/ListNationalDebates";
+import ListDebates from "~/components/list/ListGlobalDebates";
 import ListTags from "~/components/list/ListTags";
 
-export const useGetNationalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates?debate_type=national', {
+export const useGetGlobalDebates = routeLoader$(async () => {
+    const response = await fetch('http://localhost:8000/debates?debate_type=SUBNATIONAL', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
@@ -30,7 +30,7 @@ export const useGetNationalDebates = routeLoader$(async () => {
     }>;
 });
 
-export const usePostNationalDebate = routeAction$(
+export const usePostDebate = routeAction$(
     async (debate) => {
         const response = await fetch('http://localhost:8000/debates/international', {
             method: 'POST',
@@ -72,16 +72,15 @@ export const useGetTags = routeLoader$(async () => {
 });
 
 export default component$(() => {
-    const nationalDebates = useGetNationalDebates();
+    const globalDebates = useGetGlobalDebates();
     const tags = useGetTags();
 
     return (
         <div>
             <ListTags tags={tags.value} />
-            <ListNationalDebates
-                title="National Debates"
-                tags={tags.value}
-                debates={nationalDebates.value}
+            <ListSubnationalDebates
+                title="Provincial Debates"
+                debates={globalDebates.value}
             />
         </div>
     );

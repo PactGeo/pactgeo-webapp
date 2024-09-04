@@ -31,53 +31,17 @@ export default component$<ListGlobalDebates>(({ debates, tags, title }) => {
 
     return (
         <div>
-            <div class="flex justify-between items-end">
+            <div class="flex justify-between items-center">
                 <h1 class="text-4xl font-bold text-gray-900 text-center my-4">{title}</h1>
-                <div>
-                    {/* {debates.length > 0 && (
-                        <div class="flex  items-center gap-1">
-                            <Tooltip.Root gutter={4} flip>
-                                <Tooltip.Trigger
-                                    onClick$={() => viewMode.value = 'cards'}
-                                    class={cn('flex gap-1 mr-4', viewMode.value === 'cards' ? 'text-gray-700' : '')}
-                                >
-                                    <LuLayoutGrid /> Card
-                                </Tooltip.Trigger>
-                                <Tooltip.Panel class="tooltip-panel">Cards view</Tooltip.Panel>
-                            </Tooltip.Root>
-                            <Tooltip.Root gutter={4} flip>
-                                <Tooltip.Trigger
-                                    onClick$={() => viewMode.value = 'table'}
-                                    class={cn('flex gap-1 mr-2', viewMode.value === 'table' ? 'text-gray-700' : '')}
-                                >
-                                    <LuTable /> Table
-                                </Tooltip.Trigger>
-                                <Tooltip.Panel class="tooltip-panel">Table view</Tooltip.Panel>
-                            </Tooltip.Root>
-                        </div>
-                    )} */}
-                    {session.value?.user ? (
-                        <Modal
-                            description="Share the most important challenge facing your community."
-                            isOpen={isOpenModal}
-                            onClickExpand={onClickExpand}
-                            title="New Debate"
-                        >
-                            <FormDebateGlobal
-                                onSubmitCompleted={onSubmitCompleted}
-                                tags={tags}
-                            />
-                        </Modal>
-                    ) : (
-                        <Modal
-                            trigger="New"
-                            title="You must log in"
-                            description="You must log in to create a new debate"
-                        >
-                            <Button>Log in</Button>
-                        </Modal>
-                    )}
-                </div>
+                {debates.length > 0 && (
+                    <Button
+                        class="new-debate-button"
+                        onClick$={() => isOpenModal.value = true}
+                    >
+                        <LuPlusCircle class="text-4xl mr-2" />
+                        Start a New Global Debate
+                    </Button>
+                )}
             </div>
             {debates.length === 0 && <EmptyDebates onClickAction={onClickAction} />}
             {viewMode.value === 'table' && (
@@ -92,25 +56,38 @@ export default component$<ListGlobalDebates>(({ debates, tags, title }) => {
                             <CardDebate
                                 title={debate.title}
                                 description={debate.description}
-                                image={debate.image_url}
+                                images={debate.images}
                                 creator_username={debate.creator_username}
                                 created_at={debate.created_at}
                                 comments_count={debate.comments_count}
                                 last_comment_at={debate.last_comment_at}
                                 tags={debate.tags}
+                                slug={debate.slug}
                             />
                         </li>
                     ))}
-                    <li key="new" class="flex justify-center items-center">
-                        <Button
-                            class="new-debate-button"
-                            onClick$={() => isOpenModal.value = true}
-                        >
-                            <LuPlusCircle class="text-4xl mr-2" />
-                            Start a New Global Debate
-                        </Button>
-                    </li>
                 </ul>
+            )}
+            {session.value?.user ? (
+                <Modal
+                    description="Share the most important challenge facing your community."
+                    isOpen={isOpenModal}
+                    onClickExpand={onClickExpand}
+                    title="New Debate"
+                >
+                    <FormDebateGlobal
+                        onSubmitCompleted={onSubmitCompleted}
+                        tags={tags}
+                    />
+                </Modal>
+            ) : (
+                <Modal
+                    trigger="New"
+                    title="You must log in"
+                    description="You must log in to create a new debate"
+                >
+                    <Button>Log in</Button>
+                </Modal>
             )}
         </div>
     );

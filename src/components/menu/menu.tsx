@@ -20,9 +20,9 @@ export default component$<MenuProps>((props) => {
     const menuItems2 = [
         { name: 'Global', path: '/debates/global/', icon: <LuGlobe /> },
         { name: 'International', path: '/debates/international/', icon: <LuGlobe2 /> },
-        { name: 'National', path: '/debates/national/', icon: <LuFlag /> },
-        { name: 'Provincial', path: '/debates/provincial/', icon: <LuMap /> },
-        { name: 'Municipal', path: '/debates/municipal/', icon: <LuLandmark /> },
+        { name: 'Nationals', path: '/debates/nationals/', icon: <LuFlag /> },
+        { name: 'SubNationals', path: '/debates/subnationals/', icon: <LuMap /> },
+        { name: 'Locales', path: '/debates/locales/', icon: <LuLandmark /> },
     ]
 
     const menuItems3 = [
@@ -39,7 +39,7 @@ export default component$<MenuProps>((props) => {
     ]
 
     return (
-        <nav class={cn('bg-white w-64 shadow-lg h-full overflow-y-auto', props.class)}>
+        <nav class={cn('bg-white w-64 shadow-lg h-full overflow-y-auto sticky top-20', props.class)}>
             <ul class='m-2 pl-0'>
                 {menuItems.map(item => (
                     <li

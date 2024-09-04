@@ -5,7 +5,7 @@ import ListDebates from "~/components/list/ListGlobalDebates";
 import ListTags from "~/components/list/ListTags";
 
 export const useGetGlobalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates/global', {
+    const response = await fetch('http://localhost:8000/debates?debate_type=global', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='

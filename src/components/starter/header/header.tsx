@@ -1,6 +1,5 @@
 import { component$, useStyles$, useStylesScoped$ } from "@builder.io/qwik";
 import { useSession, useSignOut } from '~/routes/plugin@auth';
-import { QwikLogo } from "../icons/qwik";
 import { Avatar } from "~/components/ui/avatar/avatar";
 import styles from "./header.css?inline";
 import { Button, Popover } from "~/components/ui";
@@ -84,11 +83,10 @@ export default component$(() => {
   const session = useSession();
 
   return (
-    <div class="w-full h-full bg-neutral-50">
+    <div class="w-full h-full container-header">
       <header class="flex justify-center w-full text-white border-0 bg-primary-700 h-14 md:h-20 border-neutral-200">
         <div class="flex items-center flex-row flex-nowrap justify-start h-full w-full px-4 md:px-10">
           <a href="/" aria-label="SF Homepage" class="inline-block text-white mr-auto">
-            {/* <QwikLogo height={50} width={143} /> */}
             <Logo style={{ width: '64px', height: '64px'}} />
           </a>
 

@@ -1,5 +1,5 @@
 import { component$ } from '@builder.io/qwik';
-import { useServerTimeLoader } from "~/routes/layout";
+import { useServerTimeLoader } from "~/routes/layout-missmenu";
 import { LuFacebook, LuTwitter, LuInstagram, LuYoutube } from "@qwikest/icons/lucide";
 import { QwikLogo } from '~/components/starter/icons/qwik';
 import { Button } from "~/components/ui";

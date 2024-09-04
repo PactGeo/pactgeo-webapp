@@ -18,7 +18,7 @@ export default component$<FormInternationalDebateProps>(({ onSubmitCompleted, ta
     const isLoading = useSignal(false);
     const title = useSignal('');
     const description = useSignal('');
-    const file_example = useSignal<any>('https://res.cloudinary.com/demo/image/upload/w_400/sample.jpg');
+    const file_example = useSignal<any>('https://images.unsplash.com/photo-1724963475892-a3274091955e?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
     const display = useSignal<string[]>([]);
     const participatingCountries = useSignal<string[]>([]);
     const selectedCountries = useSignal<string[]>([]);
@@ -33,7 +33,7 @@ export default component$<FormInternationalDebateProps>(({ onSubmitCompleted, ta
                 !action.value?.failed && onSubmitCompleted && onSubmitCompleted();
             }}
         >
-            <input type="hidden" name="type" value="international" />
+            <input type="hidden" name="type" value="INTERNATIONAL" />
             <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
                 <Label for="title">Title</Label>
                 <Input
@@ -64,7 +64,7 @@ export default component$<FormInternationalDebateProps>(({ onSubmitCompleted, ta
 
             <div class="grid w-full max-w-sm items-center gap-1.5 mb-4">
                 <Label>Participating Countries</Label>
-                <RadioGroup.Root>
+                {/* <RadioGroup.Root>
                     <div class="flex items-center space-x-2">
                         <RadioGroup.Item name="size" value="default" id="r1" checked />
                         <Label for="r1">Include</Label>
@@ -73,7 +73,7 @@ export default component$<FormInternationalDebateProps>(({ onSubmitCompleted, ta
                         <RadioGroup.Item name="size" value="comfortable" id="r2" />
                         <Label for="r2">Exclude</Label>
                     </div>
-                </RadioGroup.Root>
+                </RadioGroup.Root> */}
                 <Combobox.Root
                     class="combobox-root"
                     multiple

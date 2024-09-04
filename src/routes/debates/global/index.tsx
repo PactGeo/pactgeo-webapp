@@ -5,17 +5,19 @@ import ListGlobalDebates from "~/components/list/ListGlobalDebates";
 import ListTags from "~/components/list/ListTags";
 
 export const useGetGlobalDebates = routeLoader$(async () => {
-    const response = await fetch('http://localhost:8000/debates?debate_type=global', {
+    const response = await fetch('http://localhost:8000/debates?debate_type=GLOBAL', {
         headers: {
             Accept: 'application/json',
             Authorization: 'Basic c2ViYToxMjM0NTY='
         },
     });
     console.log('=====================================================================================')
+    // console.log('response: ', response)
     return (await response.json()) as Array<{
         id: string;
         type: string;
         title: string;
+        slug: string;
         description: string;
         image_url: string;
         public: boolean;
@@ -80,9 +82,8 @@ export const useGetTags = routeLoader$(async () => {
 
 export default component$(() => {
     const globalDebates = useGetGlobalDebates();
-    console.log('globalDebates', globalDebates.value)
+    // console.log('globalDebates', globalDebates.value)
     const tags = useGetTags();
-
     return (
         <div>
             <ListTags tags={tags.value} />

@@ -1,8 +1,15 @@
+.container-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
 header {
   background-color: var(--qwik-dark-purple);
   color: white;
   position: sticky;
   top: 0;
+  z-index: 1000;
 }
 
 .popover-transition {

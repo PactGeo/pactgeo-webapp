@@ -18,7 +18,7 @@ export default component$<FormDebateGlobalProps>(({ onSubmitCompleted, tags }) =
     const description = useSignal('');
     const file = useSignal<any>('');
 
-    const file_example = useSignal<any>('https://res.cloudinary.com/demo/image/upload/w_400/sample.jpg');
+    const file_example = useSignal<any>('https://images.unsplash.com/photo-1724963475892-a3274091955e?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
     const display = useSignal<string[]>([]);
     
     const action = usePostDebate();
@@ -95,7 +95,7 @@ export default component$<FormDebateGlobalProps>(({ onSubmitCompleted, tags }) =
             </div>
 
             <div>
-                <Input type="hidden" name="type" value="global" />
+                <Input type="hidden" name="type" value="GLOBAL" />
             </div>
 
             {/* 
@@ -156,7 +156,7 @@ export default component$<FormDebateGlobalProps>(({ onSubmitCompleted, tags }) =
                 </Combobox.Root>
             </div> */}
 
-            <input type="hidden" name="creator_id" value="2" />
+            <input type="hidden" name="creator_id" value="1" />
             <input type="hidden" name="community_id" value="1" />
 
             <Button type="submit" class="modal-save w-full" onClick$={() => isLoading.value = true} disabled={isLoading.value}>
